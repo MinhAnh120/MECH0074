@@ -4,6 +4,7 @@ from dataclasses import replace
 import unittest
 import numpy as np
 from stage1 import Case, G, estimate_period, simulate, spectrum, theory
+from run_stage1 import metrics, refinement_change
 
 
 def reflected_ramps(case, time, stations):
@@ -106,6 +107,20 @@ class Stage1Tests(unittest.TestCase):
         self.assertEqual(entered["phase_status"], "phase_limit_crossed")
         negative = simulate(Case(speed_mode="bulk"), 100, 0.3)
         self.assertEqual(negative["phase_status"], "nonpositive_absolute_pressure")
+
+    def test_frictional_grid_refinement(self):
+        case = Case(friction=0.020)
+        previous = previous_metrics = None
+        for n in (100, 200, 400):
+            result = simulate(case, n, 1)
+            row = metrics(case, result)
+            self.assertIsNotNone(row["period_s"])
+            if previous is not None:
+                change = refinement_change(previous, result, previous_metrics, row,
+                                           theory(case)["surge_pa"])
+                for value in change.values():
+                    self.assertLess(value, 1.0)  # Proposed numerical tolerance, not a UCL threshold.
+            previous, previous_metrics = result, row
 
 
 if __name__ == "__main__":
