@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+references/
+results/latest/
+results/run-*/
