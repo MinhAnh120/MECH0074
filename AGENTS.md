@@ -11,14 +11,14 @@
 - Use SI internally. Distinguish absolute pressure, pressure above external pressure, and change from the initial local pressure.
 - Preserve prescribed linear velocity/flow closure over 0.020 s. Valve-area closure is a different model.
 - Distinguish the supplied bulk sound speed (1100 m/s) from the lecture's effective pipe wave speed. Keep both labelled reference cases until the specification interpretation is settled.
-- Darcy factor 0.020 is a teaching sensitivity assumption, not measured LNG data. Do not invent LNG viscosity, roughness, composition or phase pressure.
+- Darcy factor 0.020 remains a teaching comparison. Read docs/FRICTION_AND_PHASE.md for the provisional Colebrook nominal/bounds and pure-methane phase screen; these are not measured LNG or pipe properties. Preserve the distinction between published correlations, adopted assumptions and actual unknown composition/finish.
 - Retain signed `Q*abs(Q)` friction, simultaneous old-to-new updates and `dt=dx/a`. Document any station interpolation.
 - A mathematical single-phase verification trace is not an approved LNG design load. Report negative absolute pressure and missing/entered phase limits. Never clip pressure to conceal failure.
 - Actual loop geometry and bend station coordinates are not supplied. Do not invent them, or label benchmark stations as bend histories.
 
 ## Working rules
 - Use small, readable Python functions and restrained comments explaining physics or non-obvious choices. NumPy, Matplotlib and standard-library unittest suffice for this stage.
-- Verify with independent analytical waves, steady flow, boundary conditions, the worked arithmetic, FFT frequencies and resolution comparisons. Run `python -m unittest discover -s tests -v` and the documented benchmark command after relevant changes.
+- Verify with independent analytical waves, steady flow, boundary conditions, the worked arithmetic, FFT frequencies and resolution comparisons. Run `python -m unittest discover -s tests -v` and `python complete_stage1.py --out results/latest` after relevant changes. Preserve legacy numerical verification as appropriate.
 - Record actual pass/fail results, dependency versions and limitations. Do not claim experimental or code-compliance validation from numerical agreement.
 - Make sequential, meaningful commits. Preserve other contributors' work and inspect the current branch head before updating it.
 - When delivering produced or requested code, put each complete code/configuration file directly in a fenced copyable field in the chat. Give its repository path and exact commit. Links supplement these fields.

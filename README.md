@@ -1,19 +1,17 @@
 # MECH0074: LNG pressure waves
 
-MAN's UCL MECH0074 Engineering in Extreme Environments coursework, 2026/27.
-Development branch: **stage1-pressure-waves** in **MinhAnh120/MECH0074**.
+MAN / Minh-Anh’s UCL MECH0074 coursework, 2026/27. Use only MinhAnh120/MECH0074, branch stage1-pressure-waves. No merge has been requested.
 
 ## Contents
-- [Run the model](#run-the-model)
-- [Cases and assumptions](#cases-and-assumptions)
+- [Run](#run)
+- [Cases](#cases)
 - [Outputs](#outputs)
-- [Verification](#verification)
-- [Files and provenance](#files-and-provenance)
-- [Continue in Codex](#continue-in-codex)
+- [Interpretation](#interpretation)
+- [Beau handoff](#beau-handoff)
+- [Verification and sources](#verification-and-sources)
 
-## Run the model
-Tested with Python 3.12.14, NumPy 2.3.5 and Matplotlib 3.10.8.
-From a terminal with Python 3.12 available:
+## Run
+From a terminal with Python and the pinned requirements:
 
 ```sh
 git clone --branch stage1-pressure-waves https://github.com/MinhAnh120/MECH0074.git
@@ -22,86 +20,64 @@ python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
-python run_stage1.py --out results/latest
+python complete_stage1.py --out results/latest --code-version YOUR_CODE_COMMIT
 ```
 
-The activation command is for Linux/macOS. Alternatively run the Python commands in an environment containing the pinned dependencies. No SciPy, Jupyter or LAMMPS dependency is needed for this implementation.
+Activation shown for Linux/macOS; Codespaces or another Python environment also works. Replace YOUR_CODE_COMMIT with the revision of the code being executed. Source SHA256 values are recorded independently, including when the working tree differs. These files are scripts: viewing them on GitHub does not execute them.
+
+The original three-case teaching runner remains available:
 
 ```sh
-python run_stage1.py --reaches 100 200 400 --periods 50 --friction 0.020 --out results/run-custom
+python run_stage1.py --out results/run-legacy --phase-limit-pa 95873.898949157
 ```
 
-`--phase-limit-pa` optionally accepts a justified LNG absolute phase pressure. No value is supplied by default. Record its composition/temperature/source in PROJECT_CONTEXT.md before interpreting it physically.
+Without --phase-limit-pa that legacy runner intentionally retains its old unknown-phase behaviour. Use complete_stage1.py for the researched workflow. It reads the supplied/shared params.py. The legacy numerical core remains independently testable and does not silently acquire new physical defaults.
 
-## Cases and assumptions
-All runs use the issued 100 m benchmark, Di=0.79394 m, Do=0.813 m, rho=455 kg/m3, u0=1.5 m/s and prescribed 0.020 s linear velocity/flow closure.
+## Cases
+The required baseline remains100m, bore0.79394m, OD0.813m, rho455kg/m3, U0=1.5m/s, reservoir0.7MPa absolute, external0.101325MPa absolute, linear velocity closure0.020s. Initial frictional pressure includes the steady Darcy gradient. Assigning0.7MPa to the reservoir is a documented interpretation of an unspecified pressure station.
 
-| Case | Wave speed | Darcy friction | Purpose |
-|---|---|---|---|
-| elastic_ideal | 997.899867 m/s from lecture 6 p.39 | 0 | Elastic-wall analytical verification |
-| bulk_ideal | 1100 m/s supplied bulk speed | 0 | Explicit fixed-area alternative |
-| elastic_friction_sensitivity | Lecture elastic speed | Assumed 0.020 by default | Quasi-steady friction sensitivity |
+Both speeds are explicit: supplied bulk1100m/s and Lecture6 p39 elastic997.8998673m/s. The supplied USE_KORTEWEG=False flag is still a TBC group selection; no final group decision is invented. Both are run consistently with their own analytical targets.
 
-The brief does not unambiguously settle the bulk/effective-speed interpretation. These cases retain the distinction; the lecturer's intended reference remains to be confirmed. E=213.233 GPa and wall thickness=0.00953 m enter the elastic speed calculation. Poisson/axial-motion refinements are outside the simplified lecture formula.
-
-The pipe is horizontal with z=0; the reservoir boundary is assigned 0.7 MPa absolute. H is pressure head above the fixed external pressure 101325 Pa: p_abs=p_external+rho*g*H. The frictional initial H profile includes steady Darcy loss, so initial valve pressure is slightly below the reservoir pressure. The brief does not locate the initial pressure in a frictional profile. Friction 0.020 is taken only as a teaching assumption, not as LNG property data.
-
-The solver adapts notebook cells6-7: fixed head reservoir, prescribed-flow valve, old-to-new characteristics and signed explicit friction. All output stations are measured FROM the reservoir. Benchmark stations lie exactly on all default grids. Other stations use explicitly reported linear interpolation; the solver never silently changes wave speed.
-
-**Physical limits:** constant-property, single-phase, quasi-steady-friction hydraulics; no cavitation, bend-reflection or moving-pipe feedback model. The bulk case reaches negative absolute pressure. Elastic cases also require an LNG phase-pressure limit before physical validity can be established. Curves beyond a phase limit are formal numerical continuations, not approved loads for Beau.
+For each speed, run ideal f=0, nominal Colebrook f=0.01010783190, assumed-envelope limits0.00881783056/0.01163976282, and separate teaching f=0.020. The provisional inputs are methane-like viscosity120microPa.s and equivalent roughness15micrometres. They are not measured properties of the actual mixture/pipe. Read [the research and qualifications](docs/FRICTION_AND_PHASE.md).
 
 ## Outputs
-`results/latest/` is generated locally and ignored by Git. For each case:
-- `*_histories.csv`: time, absolute pressure and flow at 10,25,50,100 m; the unaltered CFL grid extends to at least 1 s.
-- `*_spectrum.csv`: valve single-sided Hann-windowed pressure amplitude (Pa) against frequency (Hz).
-- `*.png`: 0-1 s absolute and incremental pressures plus longer-record FFT.
-- `verification.json`: all parameters, source-code hashes, versions, analytical values, per-grid metrics, refinement differences, timing/phase diagnostics and FFT window details.
-- `convergence.csv`: first valve rise and period versus reach count.
+The complete runner generates:
 
-`results/selected/` contains a reproducible snapshot of selected numerical verification from the initial implementation. Rerunning generates all histories/spectra, not just these selected files. A benchmark station CSV is not an actual loop bend CSV.
-
-The longer FFT uses 50 ideal periods by default, starting one ideal period plus the closure ramp after t=0. For elastic cases the DFT window is 20.042091 s; bulk is 18.181818 s. M=4*N*periods samples; duration=M*dt, not (M-1)*dt. The fundamental lies at bin 50 in the default ideal cases. Frequency recovery must also agree with the independently measured time-domain period. Sampling/detection of the leading ramp first becomes nonzero one dt after its theoretical onset; reports retain this difference instead of relabelling the sample.
-
-## Verification
-11 standard-library unittest checks cover:
-- supplied/derived analytical values and invalid inputs;
-- frictional steady state and pressure/flow boundary conditions;
-- the independently calculated first valve and interior updates;
-- full finite-ramp frictionless histories at all four stations using travelling/reflected waves;
-- period and arrival times, including 10 m overlap for a=1100;
-- explicit off-grid station sampling;
-- independent sinusoid FFT frequency/amplitude;
-- unknown, entered and crossed pressure-limit diagnostics;
-- frictional 100/200/400 reach comparisons.
-
-The independent wave comparison applies before and after reflections mathematically; it does not make an invalid single-phase trough physically real. On a matching characteristic grid the frictionless solution can agree to roundoff; this is expected, not evidence that all physical approximations are exact. In the default friction sensitivity, 200-to-400 reach peak change is about 0.0004695%, and maximum difference sampled at common times is about 0.0002853% of the ideal surge. These checks and the proposed <1% refinement target are not assessment tolerances or experimental validation.
-
-| Selected result at N=400 | First valve rise (MPa) | Measured period (s) | FFT peak (Hz) |
-|---|---:|---:|---:|
-| elastic_ideal | 0.681067 | 0.400841821 | 2.494750 |
-| bulk_ideal | 0.750750 | 0.363636364 | 2.750000 |
-| elastic_friction_sensitivity | 0.682310 | 0.400841829 | 2.494750 |
-
-The slightly higher frictional first maximum includes loss recovery; exact Joukowsky equality is checked using the separate frictionless cases. Code does not clip negative pressure or substitute the notebook's water vapour pressure.
-
-## Files and provenance
-| File | Role |
+| File | Meaning |
 |---|---|
-| stage1.py | Case data, speed, streaming MOC, pressure diagnostics, period and FFT functions |
-| run_stage1.py | Three reference cases, grid studies, plots and data export |
-| tests/test_stage1.py | Independent numerical/physical checks |
-| requirements.txt | Tested dependencies |
-| AGENTS.md | Persistent scope, physics and code-delivery rules |
-| docs/PROJECT_CONTEXT.md | Verified coursework context, dependencies, decisions and unresolved questions |
-| docs/SOURCES.md | Exact source pages/cells, original hashes, attribution and peer-reviewed extensions |
+| *_histories.csv | Common time coordinates, four benchmark absolute pressures and signed volume flows,0–1s |
+| *_spectrum.csv | Mean-removed, Hann-windowed valve pressure amplitude versus frequency |
+| *_long_valve.csv | Full long valve histories for ideal/nominal cases |
+| *.png | Required short histories plus longer-record spectrum, phase threshold and labels |
+| convergence.csv / convergence.png | First rise and period for N=100,200,400 |
+| theory_comparison.csv | Theory and measured first crest, arrivals, reservoir travel/return, period and FFT |
+| friction_sensitivity.csv | Friction, surge, minima, phase flags, period and frequency |
+| closure_sensitivity.csv | Additional0.020/0.10/0.25/0.50s closure scenarios; last case screened over50 periods |
+| verification.json | Configuration, source hashes, code version, versions, input corners, per-grid metrics, phase flags and FFT details |
 
-The supplied notebook is an attributed baseline, not an assertion that all defaults are coursework data. Detailed differences and known lecture discrepancies are retained in the context files. Original course PDFs, ZIP and full notebook are not redistributed; provide them separately for source-level review. No overall licence is assigned to the course-derived material by this repository.
+Generated results/latest is ignored by Git. results/selected stores current compact reports, ideal/nominal benchmark CSVs and selected plots. Initial results remain in Git history. Rerun to produce all larger histories and spectra.
 
-## Continue in Codex
-A separate application is not needed to develop this model here. For another Codex session, open this repository and checkout `stage1-pressure-waves`. Read AGENTS.md, PROJECT_CONTEXT.md, SOURCES.md and selected verification before editing. Repository guidance travels with the files; complete past chats and attachments do not automatically transfer.
+Long FFT records use50 ideal periods, starting one period after the closure ramp. Their analysed windows are18.181818s bulk and20.042091s elastic, with bin spacing0.055/0.049895Hz. M=80000 at N400; DFT duration=M*dt, not(M-1)*dt. Time-domain period and an independent sinusoid check supplement this coherently chosen FFT record. Peak recovery is numerical verification, not experimental evidence.
 
-Suggested handoff prompt:
+## Interpretation
+The auxiliary methane saturation threshold at111K is95873.89895Pa absolute. Actual LNG composition is unknown. All prescribed rapid-baseline cases cross this screen: full pressure traces, periods and spectra are **formal single-phase verification**. No pressure clipping, cavity model or physical approval is implied. The first positive crest occurs before the detected threshold crossing.
 
-> Work only in MinhAnh120/MECH0074 on stage1-pressure-waves. Read AGENTS.md, docs/PROJECT_CONTEXT.md and docs/SOURCES.md. Run the tests and inspect results/selected/verification.json. Explain the current physical assumptions and unresolved phase/friction/wave-speed choices, then implement my requested change. Return complete changed code in copyable fields with exact paths and commit.
+The model is a horizontal uniform-area, constant-property MOC with quasi-steady signed Darcy resistance, fixed reservoir and prescribed valve flow. It omits local bend losses/reflections, elevation, cavity dynamics and moving-pipe feedback. The viscosity/roughness envelope is an engineering scenario, not an actual-fluid confidence interval.
 
-The actual loop route, bend stations and structural response remain later work. Confirm dimensions/boundaries before replacing benchmark histories with bend histories. Discussion of applicable codes and design improvements is still required for the coursework and is not delivered by passing these numerical checks.
+## Beau handoff
+Read [BEAU_HANDOFF.md](docs/BEAU_HANDOFF.md). Benchmark stations10,25,50,100m are **not actual bends**. Supply the full reservoir-to-valve hydraulic length, four ordered bend stations, geometry revision and selected speed in a copy of route_template.json, then:
+
+```sh
+python export_bends.py route.json --out results/latest/bends --code-version YOUR_CODE_COMMIT
+```
+
+Null geometry is deliberately rejected. The exporter preserves a common time vector and each station’s wave delay and writes complete metadata/phase flags. Physical interpretation still needs actual composition and appropriate hydraulic modelling. Geometry-specific convergence must be checked after route changes.
+
+## Verification and sources
+Sixteen unittest cases cover the original eleven independent wave/steady/boundary/FFT/refinement checks plus correlation fixed points/residuals, shared input mapping, measured boundary timings, and the export contract using synthetic test geometry only. See [executed validation](docs/VALIDATION.md).
+
+At Courant1 the ideal wave solution can match independent reflected finite ramps to roundoff. Grid convergence does not establish phase validity or code compliance. A proposed <1% refinement criterion is an engineering choice, not a UCL mark threshold. A slight first-crest increase with friction includes initial pressure-loss recovery.
+
+Read AGENTS.md, [PROJECT_CONTEXT.md](docs/PROJECT_CONTEXT.md), [SOURCES.md](docs/SOURCES.md), [FRICTION_AND_PHASE.md](docs/FRICTION_AND_PHASE.md), and selected verification before continuing in another coding session. Earlier chats/attachments do not automatically transfer. The issued brief pp3–4 and supplied notebook control scope and teaching conventions; scientific extensions are attributed. Original PDFs, ZIP and notebook are not redistributed here. No licence over supplied course material is asserted.
+
+Discussion of codes, actual structural response, damping sensitivity, and combined feasible designs remains group work. The longer0.50s pressure run is not the Stage4 preferred-design structural assessment.

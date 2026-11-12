@@ -19,3 +19,15 @@ The source notebook's full bytes and course PDFs/ZIP are not redistributed here.
 - Ghidaoui, Zhao, McInnis and Axworthy (2005), "A Review of Water Hammer Theory and Practice", Applied Mechanics Reviews 58,49-76. DOI 10.1115/1.1828050. Sections2-4: model restrictions, compliance and wall shear.
 - Bergant, Simpson and Tijsseling (2006), "Water hammer with column separation: A historical review", Journal of Fluids and Structures 22,135-171. DOI 10.1016/j.jfluidstructs.2005.08.008. Phase change and collapse can invalidate single-phase continuation.
 - Harris (1978), "On the use of windows for harmonic analysis with the discrete Fourier transform", Proceedings of the IEEE 66,51-83. DOI 10.1109/PROC.1978.10837. Uniform sampling, DFT bins and windowing. Hann window use and the chosen 50-period record are explicit analysis choices, not requirements stated by the coursework.
+
+## Research added 12 November 2026
+- Sotiriadou, Antoniadis, Assael, Martinek & Huber (2026), International Journal of Thermophysics47:18, DOI10.1007/s10765-025-03690-7; online2025. Table8 p25 and liquid-uncertainty discussion pp1,27. https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=960665
+- Colebrook (1939), J.Inst.CivilEngineers11(4),133–156, DOI10.1680/ijoti.1939.13150. Publisher metadata/preview accessible; full publisher text paywalled. Equation also cross-checked in published transient review/conference literature.
+- Botros & Shouman (2016), J.NaturalGasScience&Engineering35,197–202, DOI10.1016/j.jngse.2016.08.044. Publisher indexed abstract/introduction accessible; full article direct retrieval403. Claims here are limited to the accessible stainless-pipe findings and correlation; no measured roughness interval is attributed to it.
+- Setzmann & Wagner (1991), JPCRD20,1061–1155, DOI10.1063/1.555898. Eq3.2 p1082, Table26 p1086 (PDF pp23,27 including cover). https://srd.nist.gov/jpcrdreprint/1.555898.pdf
+- Friend (1990), Cryogenics30,105–112, DOI10.1016/0011-2275(90)90254-A; accessible publisher abstract for composition dependence only.
+- Thol, Richter, May, Lemmon & Span (2019), JPCRD48,033102, DOI10.1063/1.5093800. NIST publication page abstract accessed. Its journal metadata incorrectly says Journal of Chemical and Engineering Data; the DOI/paper identify JPCRD. It supports mixture-specific thermodynamics, not a numerical bubble-point result for an unknown mixture.
+- Supplied params.py, 4233bytes, attachment9November: retained shared supplied/derived constants, corrected provenance wording only. New assumptions live in fluid_assumptions.py, not disguised as supplied parameters.
+- MECH0074 Group Presentation Layout.pdf,36pages: pp11–15 Stage1 allocation; p32 Minh-Anh recommendations; p35 model appendix. A planning document, not authority for prefilled numerical answers.
+
+No source supplied an actual LNG assay or pipe roughness. The nominal roughness and uncertainty envelopes are explicitly engineering choices. See FRICTION_AND_PHASE.md for access limitations, source-specific claims and conditional validity.

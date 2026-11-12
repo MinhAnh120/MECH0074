@@ -62,7 +62,7 @@ def save_case(directory, name, case, short, frequency, amplitude):
     columns = ["time_s"]+[f"p_abs_x{v:g}_m_pa" for v in x]+[f"Q_x{v:g}_m_m3_s" for v in x]
     np.savetxt(directory/f"{name}_histories.csv",
                np.column_stack((time, pressure, short["flow"])), delimiter=",",
-               header=",".join(columns), comments="")
+               header=",".join(columns), comments="", fmt="%.12g")
     np.savetxt(directory/f"{name}_spectrum.csv", np.column_stack((frequency, amplitude)),
                delimiter=",", header="frequency_hz,pressure_amplitude_pa", comments="")
     fig, axes = plt.subplots(3, 1, figsize=(9, 10), constrained_layout=True)
@@ -70,12 +70,16 @@ def save_case(directory, name, case, short, frequency, amplitude):
         label = f"x = {station:g} m"+(" (valve)" if station == case.length else "")
         axes[0].plot(time, pressure[:, i]/1e6, label=label)
         axes[1].plot(time, (pressure[:, i]-pressure[0, i])/1e6, label=label)
-    axes[0].set(ylabel="Absolute pressure [MPa]", xlim=(0, 1))
+    axes[0].set(xlabel="Time [s]", ylabel="Absolute pressure [MPa]", xlim=(0, 1))
     axes[1].set(xlabel="Time [s]", ylabel="Pressure change [MPa]", xlim=(0, 1))
-    axes[0].legend(ncol=4, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.01))
+    if case.phase_limit is not None:
+        axes[0].axhline(case.phase_limit/1e6, color="black", ls=":",
+                        label="Entered phase threshold (see metadata)")
+    axes[0].legend(ncol=3, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.01))
     axes[2].plot(frequency, amplitude/1e6)
     axes[2].axvline(case.speed/(4*case.length), color="tab:red", ls="--", label="a/(4L)")
-    axes[2].set(xlabel="Frequency [Hz]", ylabel="Valve amplitude [MPa]", xlim=(0, 20))
+    axes[2].set(title="Valve-pressure spectrum from the longer record",
+                xlabel="Frequency [Hz]", ylabel="Valve amplitude [MPa]", xlim=(0, 20))
     axes[2].legend()
     for axis in axes:
         axis.grid(alpha=0.3)
