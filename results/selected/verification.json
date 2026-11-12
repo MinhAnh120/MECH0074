@@ -1,182 +1,54 @@
 {
+  "code_version": "166e671f3b2f9f66e47fb68b33469401683e0b5f",
   "python": "3.12.14",
   "numpy": "2.3.5",
-  "matplotlib": "3.10.8",
-  "sources": {
+  "source_sha256": {
     "stage1.py": "c205473c7ec29739c38161fc03e8bb314eb2e5772be3e9f7b8c156a2ff462da1",
-    "run_stage1.py": "7d3f48079c1d8175ddd759cbe494cf437e354458e83ed7c45eb0619bc8541c99"
+    "run_stage1.py": "79fa707ffe68b4a8099e2ab62224eaeb4111baa81ef4e23ac6dd5fd686eb3f32",
+    "complete_stage1.py": "c842aaafeb628e97fff4a3ef591455087b103f497b926fc563eadce082e31570",
+    "params.py": "c80dc12cde216e139bb782500bade5d94f1d12fdb846854840a2afa3f535e052",
+    "fluid_assumptions.py": "9834fd6de706b4c399c1cba1538bf39e7c466d7fe50f0f1d786b638d2aaa99bd",
+    "export_bends.py": "2d7fce8d1aea08a79a804998ce4ef326c9ec71ef94d5d169b6a23be995755bf3"
+  },
+  "phase_basis": "Pure methane surrogate at 111 K; actual LNG composition unknown",
+  "actual_LNG_composition_known": false,
+  "phase_limit_pa": 95873.898949157,
+  "friction_assumptions": {
+    "mu_pa_s": 0.00012,
+    "roughness_m": 1.5e-05,
+    "reynolds": 4515533.75,
+    "darcy_factor": 0.010107831897873143,
+    "lower": 0.0088178305629382,
+    "upper": 0.011639762816962974,
+    "corners": [
+      {
+        "mu_pa_s": 9.6e-05,
+        "roughness_m": 0.0,
+        "reynolds": 5644417.1875,
+        "darcy_factor": 0.0088178305629382
+      },
+      {
+        "mu_pa_s": 9.6e-05,
+        "roughness_m": 5e-05,
+        "reynolds": 5644417.1875,
+        "darcy_factor": 0.011443021079319991
+      },
+      {
+        "mu_pa_s": 0.000144,
+        "roughness_m": 0.0,
+        "reynolds": 3762944.7916666665,
+        "darcy_factor": 0.00938216479538123
+      },
+      {
+        "mu_pa_s": 0.000144,
+        "roughness_m": 5e-05,
+        "reynolds": 3762944.7916666665,
+        "darcy_factor": 0.011639762816962974
+      }
+    ],
+    "bounds_basis": "Assumed viscosity +/-20%, equivalent roughness 0-50 micrometres"
   },
   "cases": {
-    "elastic_ideal": {
-      "parameters_SI": {
-        "length": 100.0,
-        "diameter": 0.79394,
-        "outer_diameter": 0.813,
-        "density": 455.0,
-        "bulk_speed": 1100.0,
-        "young": 213233000000.0,
-        "velocity": 1.5,
-        "pressure_abs": 700000.0,
-        "external_abs": 101325.0,
-        "closure_time": 0.02,
-        "friction": 0.0,
-        "speed_mode": "elastic",
-        "phase_limit": null
-      },
-      "analytical": {
-        "speed_m_s": 997.899867315862,
-        "area_m2": 0.4950684466300585,
-        "initial_flow_m3_s": 0.7426026699450877,
-        "surge_pa": 681066.6594430758,
-        "one_way_s": 0.10021045525236784,
-        "round_trip_s": 0.20042091050473568,
-        "period_s": 0.40084182100947136,
-        "fundamental_hz": 2.4947496682896553,
-        "closure_ratio": 0.0997899867315862
-      },
-      "grids": [
-        {
-          "reaches": 100,
-          "dx_m": 1.0,
-          "dt_s": 0.0010021045525236785,
-          "first_valve_rise_pa": 681066.6594430758,
-          "surge_error_percent": 0.0,
-          "period_s": 0.40084182100947147,
-          "period_error_percent": 2.220446049250313e-14,
-          "arrivals": [
-            {
-              "station_m": 10.0,
-              "expected_s": 0.09018940972713106,
-              "first_detected_s": 0.09119151427965475,
-              "error_s": 0.0010021045525236832
-            },
-            {
-              "station_m": 25.0,
-              "expected_s": 0.07515784143927588,
-              "first_detected_s": 0.07615994599179957,
-              "error_s": 0.0010021045525236832
-            },
-            {
-              "station_m": 50.0,
-              "expected_s": 0.05010522762618392,
-              "first_detected_s": 0.0511073321787076,
-              "error_s": 0.0010021045525236832
-            },
-            {
-              "station_m": 100.0,
-              "expected_s": 0.0,
-              "first_detected_s": 0.0010021045525236785,
-              "error_s": 0.0010021045525236785
-            }
-          ],
-          "minimum_absolute_pa": 18933.340556924333,
-          "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
-          "interpolated_stations": false
-        },
-        {
-          "reaches": 200,
-          "dx_m": 0.5,
-          "dt_s": 0.0005010522762618392,
-          "first_valve_rise_pa": 681066.6594430758,
-          "surge_error_percent": 0.0,
-          "period_s": 0.40084182100947147,
-          "period_error_percent": 2.220446049250313e-14,
-          "arrivals": [
-            {
-              "station_m": 10.0,
-              "expected_s": 0.09018940972713106,
-              "first_detected_s": 0.0906904620033929,
-              "error_s": 0.0005010522762618347
-            },
-            {
-              "station_m": 25.0,
-              "expected_s": 0.07515784143927588,
-              "first_detected_s": 0.07565889371553773,
-              "error_s": 0.0005010522762618486
-            },
-            {
-              "station_m": 50.0,
-              "expected_s": 0.05010522762618392,
-              "first_detected_s": 0.05060627990244576,
-              "error_s": 0.0005010522762618416
-            },
-            {
-              "station_m": 100.0,
-              "expected_s": 0.0,
-              "first_detected_s": 0.0005010522762618392,
-              "error_s": 0.0005010522762618392
-            }
-          ],
-          "minimum_absolute_pa": 18933.340556924333,
-          "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
-          "interpolated_stations": false,
-          "change_from_previous": {
-            "waveform_difference_percent": 4.273271940889397e-15,
-            "first_valve_rise_pa_change_percent": 0.0,
-            "period_s_change_percent": 0.0
-          }
-        },
-        {
-          "reaches": 400,
-          "dx_m": 0.25,
-          "dt_s": 0.0002505261381309196,
-          "first_valve_rise_pa": 681066.6594430758,
-          "surge_error_percent": 0.0,
-          "period_s": 0.40084182100947147,
-          "period_error_percent": 2.220446049250313e-14,
-          "arrivals": [
-            {
-              "station_m": 10.0,
-              "expected_s": 0.09018940972713106,
-              "first_detected_s": 0.09043993586526199,
-              "error_s": 0.0002505261381309243
-            },
-            {
-              "station_m": 25.0,
-              "expected_s": 0.07515784143927588,
-              "first_detected_s": 0.0754083675774068,
-              "error_s": 0.0002505261381309243
-            },
-            {
-              "station_m": 50.0,
-              "expected_s": 0.05010522762618392,
-              "first_detected_s": 0.050355753764314844,
-              "error_s": 0.0002505261381309243
-            },
-            {
-              "station_m": 100.0,
-              "expected_s": 0.0,
-              "first_detected_s": 0.0002505261381309196,
-              "error_s": 0.0002505261381309196
-            }
-          ],
-          "minimum_absolute_pa": 18933.340556924333,
-          "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
-          "interpolated_stations": false,
-          "change_from_previous": {
-            "waveform_difference_percent": 1.0255852658134552e-13,
-            "first_valve_rise_pa_change_percent": 0.0,
-            "period_s_change_percent": 0.0
-          }
-        }
-      ],
-      "long_record": {
-        "samples": 80000,
-        "window": "Hann; mean removed",
-        "start_s": 0.42088391205994496,
-        "DFT_duration_s": 20.04209105047357,
-        "bin_spacing_hz": 0.04989499336579217,
-        "peak_hz": 2.4947496682896086,
-        "minimum_absolute_pa": 18933.340556924333,
-        "phase_status": "LNG_phase_limit_not_supplied"
-      }
-    },
     "bulk_ideal": {
       "parameters_SI": {
         "length": 100.0,
@@ -191,7 +63,7 @@
         "closure_time": 0.02,
         "friction": 0.0,
         "speed_mode": "bulk",
-        "phase_limit": null
+        "phase_limit": 95873.898949157
       },
       "analytical": {
         "speed_m_s": 1100.0,
@@ -241,7 +113,7 @@
           ],
           "minimum_absolute_pa": -50750.0,
           "first_nonpositive_s": 0.2018181818181818,
-          "first_phase_crossing_s": null,
+          "first_phase_crossing_s": 0.2,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": false
         },
@@ -281,7 +153,7 @@
           ],
           "minimum_absolute_pa": -50750.0,
           "first_nonpositive_s": 0.20136363636363636,
-          "first_phase_crossing_s": null,
+          "first_phase_crossing_s": 0.2,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": false,
           "change_from_previous": {
@@ -326,7 +198,7 @@
           ],
           "minimum_absolute_pa": -50750.00000000006,
           "first_nonpositive_s": 0.20136363636363636,
-          "first_phase_crossing_s": null,
+          "first_phase_crossing_s": 0.2,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": false,
           "change_from_previous": {
@@ -336,18 +208,1396 @@
           }
         }
       ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
       "long_record": {
-        "samples": 80000,
-        "window": "Hann; mean removed",
         "start_s": 0.3836363636363636,
+        "samples": 80000,
         "DFT_duration_s": 18.181818181818183,
+        "window": "Hann; mean removed",
         "bin_spacing_hz": 0.05499999999999629,
         "peak_hz": 2.7499999999998144,
+        "first_phase_crossing_s": 0.2,
         "minimum_absolute_pa": -50750.00000000006,
         "phase_status": "nonpositive_absolute_pressure"
       }
     },
-    "elastic_friction_sensitivity": {
+    "bulk_nominal": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.010107831897873143,
+        "speed_mode": "bulk",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 1100.0,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 750750.0,
+        "one_way_s": 0.09090909090909091,
+        "round_trip_s": 0.18181818181818182,
+        "period_s": 0.36363636363636365,
+        "fundamental_hz": 2.75,
+        "closure_ratio": 0.11
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0009090909090909091,
+          "first_valve_rise_pa": 751371.30265497,
+          "surge_error_percent": 0.08275759639959634,
+          "period_s": 0.3636363652406642,
+          "period_error_percent": 4.4118266817605445e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08272727272727273,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06909090909090909,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.046363636363636364,
+              "error_s": 0.000909090909090908
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0009090909090909091,
+              "error_s": 0.0009090909090909091
+            }
+          ],
+          "minimum_absolute_pa": -50095.7859222698,
+          "first_nonpositive_s": 0.2018181818181818,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.00045454545454545455,
+          "first_valve_rise_pa": 751374.5240336589,
+          "surge_error_percent": 0.08318668447004907,
+          "period_s": 0.36363636523034126,
+          "period_error_percent": 4.383438501065484e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08227272727272728,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06863636363636363,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045909090909090906,
+              "error_s": 0.00045454545454545053
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00045454545454545455,
+              "error_s": 0.00045454545454545455
+            }
+          ],
+          "minimum_absolute_pa": -50097.63654897557,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.0003245321152448937,
+            "first_valve_rise_pa_change_percent": 0.0004287314229979165,
+            "period_s_change_percent": 2.838815281504699e-09
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.00022727272727272727,
+          "first_valve_rise_pa": 751376.1439683139,
+          "surge_error_percent": 0.083402459981885,
+          "period_s": 0.36363636523050785,
+          "period_error_percent": 4.3838965790854445e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08204545454545455,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.0684090909090909,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045681818181818185,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00022727272727272727,
+              "error_s": 0.00022727272727272727
+            }
+          ],
+          "minimum_absolute_pa": -50098.50649139777,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.0001353745237685978,
+            "first_valve_rise_pa_change_percent": 0.00021559569970799842,
+            "period_s_change_percent": 4.581196513154139e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.3836363636363636,
+        "samples": 80000,
+        "DFT_duration_s": 18.181818181818183,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.05499999999999629,
+        "peak_hz": 2.7499999999998144,
+        "first_phase_crossing_s": 0.2,
+        "minimum_absolute_pa": -50098.50649139777,
+        "phase_status": "nonpositive_absolute_pressure"
+      }
+    },
+    "bulk_lower": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.0088178305629382,
+        "speed_mode": "bulk",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 1100.0,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 750750.0,
+        "one_way_s": 0.09090909090909091,
+        "round_trip_s": 0.18181818181818182,
+        "period_s": 0.36363636363636365,
+        "fundamental_hz": 2.75,
+        "closure_ratio": 0.11
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0009090909090909091,
+          "first_valve_rise_pa": 751292.0112097347,
+          "surge_error_percent": 0.07219596533263317,
+          "period_s": 0.3636363648581176,
+          "period_error_percent": 3.359823530502126e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08272727272727273,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06909090909090909,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.046363636363636364,
+              "error_s": 0.000909090909090908
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0009090909090909091,
+              "error_s": 0.0009090909090909091
+            }
+          ],
+          "minimum_absolute_pa": -50179.165871377714,
+          "first_nonpositive_s": 0.2018181818181818,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.00045454545454545455,
+          "first_valve_rise_pa": 751294.8214626296,
+          "surge_error_percent": 0.07257029139255966,
+          "period_s": 0.3636363648502395,
+          "period_error_percent": 3.338158638399591e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08227272727272728,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06863636363636363,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045909090909090906,
+              "error_s": 0.00045454545454545053
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00045454545454545455,
+              "error_s": 0.00045454545454545455
+            }
+          ],
+          "minimum_absolute_pa": -50180.780396072165,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00028322367365492176,
+            "first_valve_rise_pa_change_percent": 0.00037405460740554775,
+            "period_s_change_percent": 2.166489203021446e-09
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.00022727272727272727,
+          "first_valve_rise_pa": 751296.2346556853,
+          "surge_error_percent": 0.07275852889581103,
+          "period_s": 0.3636363648503605,
+          "period_error_percent": 3.3384912612177686e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08204545454545455,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.0684090909090909,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045681818181818185,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00022727272727272727,
+              "error_s": 0.00022727272727272727
+            }
+          ],
+          "minimum_absolute_pa": -50181.539335197216,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00011812632414923259,
+            "first_valve_rise_pa_change_percent": 0.0001881006439901903,
+            "period_s_change_percent": 3.327893505203763e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.3836363636363636,
+        "samples": 80000,
+        "DFT_duration_s": 18.181818181818183,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.05499999999999629,
+        "peak_hz": 2.7499999999998144,
+        "first_phase_crossing_s": 0.2,
+        "minimum_absolute_pa": -50181.539335197216,
+        "phase_status": "nonpositive_absolute_pressure"
+      }
+    },
+    "bulk_upper": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.011639762816962974,
+        "speed_mode": "bulk",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 1100.0,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 750750.0,
+        "one_way_s": 0.09090909090909091,
+        "round_trip_s": 0.18181818181818182,
+        "period_s": 0.36363636363636365,
+        "fundamental_hz": 2.75,
+        "closure_ratio": 0.11
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0009090909090909091,
+          "first_valve_rise_pa": 751465.4639581735,
+          "surge_error_percent": 0.09529989452861098,
+          "period_s": 0.3636363657621179,
+          "period_error_percent": 5.845824047057135e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08272727272727273,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06909090909090909,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.046363636363636364,
+              "error_s": 0.000909090909090908
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0009090909090909091,
+              "error_s": 0.0009090909090909091
+            }
+          ],
+          "minimum_absolute_pa": -49996.8117442379,
+          "first_nonpositive_s": 0.2018181818181818,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.00045454545454545455,
+          "first_valve_rise_pa": 751469.1735663018,
+          "surge_error_percent": 0.09579401482542327,
+          "period_s": 0.36363636574847436,
+          "period_error_percent": 5.808304504029138e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08227272727272728,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06863636363636363,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045909090909090906,
+              "error_s": 0.00045454545454545053
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00045454545454545455,
+              "error_s": 0.00045454545454545455
+            }
+          ],
+          "minimum_absolute_pa": -49998.94272059051,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.000373545839851167,
+            "first_valve_rise_pa_change_percent": 0.0004936474121339392,
+            "period_s_change_percent": 3.7519709343525115e-09
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.00022727272727272727,
+          "first_valve_rise_pa": 751471.0390149332,
+          "surge_error_percent": 0.09604249283159394,
+          "period_s": 0.3636363657487073,
+          "period_error_percent": 5.808944880669742e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08204545454545455,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.0684090909090909,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045681818181818185,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00022727272727272727,
+              "error_s": 0.00022727272727272727
+            }
+          ],
+          "minimum_absolute_pa": -49999.94447554002,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00015584638411187868,
+            "first_valve_rise_pa_change_percent": 0.00024823959068223726,
+            "period_s_change_percent": 6.40543170336604e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.3836363636363636,
+        "samples": 80000,
+        "DFT_duration_s": 18.181818181818183,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.05499999999999629,
+        "peak_hz": 2.7499999999998144,
+        "first_phase_crossing_s": 0.2,
+        "minimum_absolute_pa": -49999.94447554002,
+        "phase_status": "nonpositive_absolute_pressure"
+      }
+    },
+    "bulk_teaching_f002": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.02,
+        "speed_mode": "bulk",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 1100.0,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 750750.0,
+        "one_way_s": 0.09090909090909091,
+        "round_trip_s": 0.18181818181818182,
+        "period_s": 0.36363636363636365,
+        "fundamental_hz": 2.75,
+        "closure_ratio": 0.11
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0009090909090909091,
+          "first_valve_rise_pa": 751979.3202813837,
+          "surge_error_percent": 0.16374562522594172,
+          "period_s": 0.3636363698852842,
+          "period_error_percent": 1.7184531575509254e-06,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08272727272727273,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06909090909090909,
+              "error_s": 0.0009090909090909149
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.046363636363636364,
+              "error_s": 0.000909090909090908
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0009090909090909091,
+              "error_s": 0.0009090909090909091
+            }
+          ],
+          "minimum_absolute_pa": -49457.499491071416,
+          "first_nonpositive_s": 0.2018181818181818,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.00045454545454545455,
+          "first_valve_rise_pa": 751985.69431908,
+          "surge_error_percent": 0.16459464789611022,
+          "period_s": 0.3636363698457346,
+          "period_error_percent": 1.7075770131214085e-06,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08227272727272728,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.06863636363636363,
+              "error_s": 0.00045454545454545747
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045909090909090906,
+              "error_s": 0.00045454545454545053
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00045454545454545455,
+              "error_s": 0.00045454545454545455
+            }
+          ],
+          "minimum_absolute_pa": -49461.15982218526,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.0006402276532609441,
+            "first_valve_rise_pa_change_percent": 0.0008476275206343005,
+            "period_s_change_percent": 1.0876135917125816e-08
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.00022727272727272727,
+          "first_valve_rise_pa": 751988.8996090047,
+          "surge_error_percent": 0.16502159294102814,
+          "period_s": 0.3636363698466139,
+          "period_error_percent": 1.7078188196961719e-06,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.08204545454545455,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.0684090909090909,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.045681818181818185,
+              "error_s": 0.00022727272727272874
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.00022727272727272727,
+              "error_s": 0.00022727272727272727
+            }
+          ],
+          "minimum_absolute_pa": -49462.880755068734,
+          "first_nonpositive_s": 0.20136363636363636,
+          "first_phase_crossing_s": 0.2,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.000267353109089497,
+            "first_valve_rise_pa_change_percent": 0.00042624165415429524,
+            "period_s_change_percent": 2.4180657063374095e-10
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.3836363636363636,
+        "samples": 80000,
+        "DFT_duration_s": 18.181818181818183,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.05499999999999629,
+        "peak_hz": 2.7499999999998144,
+        "first_phase_crossing_s": 0.2,
+        "minimum_absolute_pa": -49462.880755068734,
+        "phase_status": "nonpositive_absolute_pressure"
+      }
+    },
+    "elastic_ideal": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.0,
+        "speed_mode": "elastic",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 997.899867315862,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 681066.6594430758,
+        "one_way_s": 0.10021045525236784,
+        "round_trip_s": 0.20042091050473568,
+        "period_s": 0.40084182100947136,
+        "fundamental_hz": 2.4947496682896553,
+        "closure_ratio": 0.0997899867315862
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0010021045525236785,
+          "first_valve_rise_pa": 681066.6594430758,
+          "surge_error_percent": 0.0,
+          "period_s": 0.40084182100947147,
+          "period_error_percent": 2.220446049250313e-14,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09119151427965475,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07615994599179957,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0511073321787076,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0010021045525236785,
+              "error_s": 0.0010021045525236785
+            }
+          ],
+          "minimum_absolute_pa": 18933.340556924333,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.0005010522762618392,
+          "first_valve_rise_pa": 681066.6594430758,
+          "surge_error_percent": 0.0,
+          "period_s": 0.40084182100947147,
+          "period_error_percent": 2.220446049250313e-14,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.0906904620033929,
+              "error_s": 0.0005010522762618347
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07565889371553773,
+              "error_s": 0.0005010522762618486
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.05060627990244576,
+              "error_s": 0.0005010522762618416
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0005010522762618392,
+              "error_s": 0.0005010522762618392
+            }
+          ],
+          "minimum_absolute_pa": 18933.340556924333,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 4.273271940889397e-15,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.0002505261381309196,
+          "first_valve_rise_pa": 681066.6594430758,
+          "surge_error_percent": 0.0,
+          "period_s": 0.40084182100947147,
+          "period_error_percent": 2.220446049250313e-14,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09043993586526199,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.0754083675774068,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.050355753764314844,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0002505261381309196,
+              "error_s": 0.0002505261381309196
+            }
+          ],
+          "minimum_absolute_pa": 18933.340556924333,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 1.0255852658134552e-13,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.42088391205994496,
+        "samples": 80000,
+        "DFT_duration_s": 20.04209105047357,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.04989499336579217,
+        "peak_hz": 2.4947496682896086,
+        "first_phase_crossing_s": 0.2194608970026856,
+        "minimum_absolute_pa": 18933.340556924333,
+        "phase_status": "phase_limit_crossed"
+      }
+    },
+    "elastic_nominal": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.010107831897873143,
+        "speed_mode": "elastic",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 997.899867315862,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 681066.6594430758,
+        "one_way_s": 0.10021045525236784,
+        "round_trip_s": 0.20042091050473568,
+        "period_s": 0.40084182100947136,
+        "fundamental_hz": 2.4947496682896553,
+        "closure_ratio": 0.0997899867315862
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0010021045525236785,
+          "first_valve_rise_pa": 681690.1850548733,
+          "surge_error_percent": 0.09155133394833648,
+          "period_s": 0.40084182297460613,
+          "period_error_percent": 4.902519279426087e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09119151427965475,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07615994599179957,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0511073321787076,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0010021045525236785,
+              "error_s": 0.0010021045525236785
+            }
+          ],
+          "minimum_absolute_pa": 19587.457019370413,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.0005010522762618392,
+          "first_valve_rise_pa": 681693.4025692719,
+          "surge_error_percent": 0.09202375678007968,
+          "period_s": 0.40084182297546694,
+          "period_error_percent": 4.904666894844922e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.0906904620033929,
+              "error_s": 0.0005010522762618347
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07565889371553773,
+              "error_s": 0.0005010522762618486
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.05060627990244576,
+              "error_s": 0.0005010522762618416
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0005010522762618392,
+              "error_s": 0.0005010522762618392
+            }
+          ],
+          "minimum_absolute_pa": 19585.590145993017,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00034243787940097274,
+            "first_valve_rise_pa_change_percent": 0.0004719884901894468,
+            "period_s_change_percent": 2.1475089993186667e-10
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.0002505261381309196,
+          "first_valve_rise_pa": 681695.0215378415,
+          "surge_error_percent": 0.09226146751619702,
+          "period_s": 0.4008418229757477,
+          "period_error_percent": 4.905367223528856e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09043993586526199,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.0754083675774068,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.050355753764314844,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0002505261381309196,
+              "error_s": 0.0002505261381309196
+            }
+          ],
+          "minimum_absolute_pa": 19584.717854220362,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00014440215949118777,
+            "first_valve_rise_pa_change_percent": 0.00023749162286990934,
+            "period_s_change_percent": 7.004643398817442e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.42088391205994496,
+        "samples": 80000,
+        "DFT_duration_s": 20.04209105047357,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.04989499336579217,
+        "peak_hz": 2.4947496682896086,
+        "first_phase_crossing_s": 0.2194608970026856,
+        "minimum_absolute_pa": 19584.717854220362,
+        "phase_status": "phase_limit_crossed"
+      }
+    },
+    "elastic_lower": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.0088178305629382,
+        "speed_mode": "elastic",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 997.899867315862,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 681066.6594430758,
+        "one_way_s": 0.10021045525236784,
+        "round_trip_s": 0.20042091050473568,
+        "period_s": 0.40084182100947136,
+        "fundamental_hz": 2.4947496682896553,
+        "closure_ratio": 0.0997899867315862
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0010021045525236785,
+          "first_valve_rise_pa": 681610.6099184703,
+          "surge_error_percent": 0.07986743556633868,
+          "period_s": 0.4008418225060485,
+          "period_error_percent": 3.7335852187680985e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09119151427965475,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07615994599179957,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0511073321787076,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0010021045525236785,
+              "error_s": 0.0010021045525236785
+            }
+          ],
+          "minimum_absolute_pa": 19504.102308227186,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.0005010522762618392,
+          "first_valve_rise_pa": 681613.4167991318,
+          "surge_error_percent": 0.08027956566001304,
+          "period_s": 0.4008418225067234,
+          "period_error_percent": 3.735268983007245e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.0906904620033929,
+              "error_s": 0.0005010522762618347
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07565889371553773,
+              "error_s": 0.0005010522762618486
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.05060627990244576,
+              "error_s": 0.0005010522762618416
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0005010522762618392,
+              "error_s": 0.0005010522762618392
+            }
+          ],
+          "minimum_absolute_pa": 19502.47359688446,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.0002988281734505516,
+            "first_valve_rise_pa_change_percent": 0.0004117995028179468,
+            "period_s_change_percent": 1.6837179624845966e-10
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.0002505261381309196,
+          "first_valve_rise_pa": 681614.8291491412,
+          "surge_error_percent": 0.08048693890165826,
+          "period_s": 0.40084182250694644,
+          "period_error_percent": 3.735825426787187e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09043993586526199,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.0754083675774068,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.050355753764314844,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0002505261381309196,
+              "error_s": 0.0002505261381309196
+            }
+          ],
+          "minimum_absolute_pa": 19501.71260567286,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00012599672095889238,
+            "first_valve_rise_pa_change_percent": 0.00020720646749886173,
+            "period_s_change_percent": 5.5643845807364245e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.42088391205994496,
+        "samples": 80000,
+        "DFT_duration_s": 20.04209105047357,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.04989499336579217,
+        "peak_hz": 2.4947496682896086,
+        "first_phase_crossing_s": 0.2194608970026856,
+        "minimum_absolute_pa": 19501.71260567286,
+        "phase_status": "phase_limit_crossed"
+      }
+    },
+    "elastic_upper": {
+      "parameters_SI": {
+        "length": 100.0,
+        "diameter": 0.79394,
+        "outer_diameter": 0.813,
+        "density": 455.0,
+        "bulk_speed": 1100.0,
+        "young": 213233000000.0,
+        "velocity": 1.5,
+        "pressure_abs": 700000.0,
+        "external_abs": 101325.0,
+        "closure_time": 0.02,
+        "friction": 0.011639762816962974,
+        "speed_mode": "elastic",
+        "phase_limit": 95873.898949157
+      },
+      "analytical": {
+        "speed_m_s": 997.899867315862,
+        "area_m2": 0.4950684466300585,
+        "initial_flow_m3_s": 0.7426026699450877,
+        "surge_pa": 681066.6594430758,
+        "one_way_s": 0.10021045525236784,
+        "round_trip_s": 0.20042091050473568,
+        "period_s": 0.40084182100947136,
+        "fundamental_hz": 2.4947496682896553,
+        "closure_ratio": 0.0997899867315862
+      },
+      "grids": [
+        {
+          "reaches": 100,
+          "dx_m": 1.0,
+          "dt_s": 0.0010021045525236785,
+          "first_valve_rise_pa": 681784.6832486026,
+          "surge_error_percent": 0.10542636254047277,
+          "period_s": 0.4008418236132816,
+          "period_error_percent": 6.495854742993856e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09119151427965475,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07615994599179957,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0511073321787076,
+              "error_s": 0.0010021045525236832
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0010021045525236785,
+              "error_s": 0.0010021045525236785
+            }
+          ],
+          "minimum_absolute_pa": 19686.396389004425,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false
+        },
+        {
+          "reaches": 200,
+          "dx_m": 0.5,
+          "dt_s": 0.0005010522762618392,
+          "first_valve_rise_pa": 681788.38840851,
+          "surge_error_percent": 0.10597038563366912,
+          "period_s": 0.4008418236143825,
+          "period_error_percent": 6.498601212712174e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.0906904620033929,
+              "error_s": 0.0005010522762618347
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.07565889371553773,
+              "error_s": 0.0005010522762618486
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.05060627990244576,
+              "error_s": 0.0005010522762618416
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0005010522762618392,
+              "error_s": 0.0005010522762618392
+            }
+          ],
+          "minimum_absolute_pa": 19684.246724770317,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.0003941905164762542,
+            "first_valve_rise_pa_change_percent": 0.0005434472001072038,
+            "period_s_change_percent": 2.746462784974727e-10
+          }
+        },
+        {
+          "reaches": 400,
+          "dx_m": 0.25,
+          "dt_s": 0.0002505261381309196,
+          "first_valve_rise_pa": 681790.2527450854,
+          "surge_error_percent": 0.1062441233874667,
+          "period_s": 0.4008418236147355,
+          "period_error_percent": 6.499481841615307e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.09043993586526199,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.0754083675774068,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.050355753764314844,
+              "error_s": 0.0002505261381309243
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.0002505261381309196,
+              "error_s": 0.0002505261381309196
+            }
+          ],
+          "minimum_absolute_pa": 19683.242268423593,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": false,
+          "change_from_previous": {
+            "waveform_difference_percent": 0.00016625023331311446,
+            "first_valve_rise_pa_change_percent": 0.00027344723217662587,
+            "period_s_change_percent": 8.807736644021722e-11
+          }
+        }
+      ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
+      "long_record": {
+        "start_s": 0.42088391205994496,
+        "samples": 80000,
+        "DFT_duration_s": 20.04209105047357,
+        "window": "Hann; mean removed",
+        "bin_spacing_hz": 0.04989499336579217,
+        "peak_hz": 2.4947496682896086,
+        "first_phase_crossing_s": 0.2194608970026856,
+        "minimum_absolute_pa": 19683.242268423593,
+        "phase_status": "phase_limit_crossed"
+      }
+    },
+    "elastic_teaching_f002": {
       "parameters_SI": {
         "length": 100.0,
         "diameter": 0.79394,
@@ -361,7 +1611,7 @@
         "closure_time": 0.02,
         "friction": 0.02,
         "speed_mode": "elastic",
-        "phase_limit": null
+        "phase_limit": 95873.898949157
       },
       "analytical": {
         "speed_m_s": 997.899867315862,
@@ -411,8 +1661,8 @@
           ],
           "minimum_absolute_pa": 20225.42650334965,
           "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
           "interpolated_stations": false
         },
         {
@@ -451,8 +1701,8 @@
           ],
           "minimum_absolute_pa": 20221.73426058264,
           "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
           "interpolated_stations": false,
           "change_from_previous": {
             "waveform_difference_percent": 0.0006759348717447424,
@@ -496,8 +1746,8 @@
           ],
           "minimum_absolute_pa": 20220.008724420346,
           "first_nonpositive_s": null,
-          "first_phase_crossing_s": null,
-          "phase_status": "LNG_phase_limit_not_supplied",
+          "first_phase_crossing_s": 0.2194608970026856,
+          "phase_status": "phase_limit_crossed",
           "interpolated_stations": false,
           "change_from_previous": {
             "waveform_difference_percent": 0.00028530436588596693,
@@ -506,15 +1756,17 @@
           }
         }
       ],
+      "interpretation": "Formal single-phase verification; surrogate phase limit crossed",
       "long_record": {
-        "samples": 80000,
-        "window": "Hann; mean removed",
         "start_s": 0.42088391205994496,
+        "samples": 80000,
         "DFT_duration_s": 20.04209105047357,
+        "window": "Hann; mean removed",
         "bin_spacing_hz": 0.04989499336579217,
         "peak_hz": 2.4947496682896086,
+        "first_phase_crossing_s": 0.2194608970026856,
         "minimum_absolute_pa": 20220.008724420346,
-        "phase_status": "LNG_phase_limit_not_supplied"
+        "phase_status": "phase_limit_crossed"
       }
     }
   }

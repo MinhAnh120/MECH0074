@@ -1,0 +1,9 @@
+speed_mode,closure_s,record_duration_s,max_valve_absolute_pa,global_min_absolute_pa,first_phase_crossing_s,phase_status
+bulk,0.02,2.0,1450725.2695223233,-50098.50649139777,0.2,nonpositive_absolute_pressure
+bulk,0.1,2.0,1450629.65172102,-50098.15628025707,0.2722727272727273,nonpositive_absolute_pressure
+bulk,0.25,2.0,1245706.5448760528,358596.13255630643,,above_entered_phase_limit_only
+bulk,0.5,18.181818181818183,972556.0344875245,495541.9289799582,,above_entered_phase_limit_only
+elastic,0.02,2.0,1381044.1461279148,19584.717854220362,0.2194608970026856,phase_limit_crossed
+elastic,0.1,2.0,1380957.3986126161,19585.07593623495,0.2948692645800924,phase_limit_crossed
+elastic,0.25,2.0,1245730.284949529,289079.2429217497,,above_entered_phase_limit_only
+elastic,0.5,20.04209105047357,972574.0554980792,565099.3153872541,,above_entered_phase_limit_only
