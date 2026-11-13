@@ -100,7 +100,7 @@ def save_resolution(output, cases):
                                  *[None if finest is None else finest[k] for k in keys],
                                  row["meets_criterion_vs_finest"]])
 
-    fig, axes = plt.subplots(1, 2, figsize=(12.5, 4.8), constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(12.5, 5.5), constrained_layout=True)
     for mode, axis in zip(("bulk", "elastic"), axes):
         for name, item in cases.items():
             if item["parameters_SI"]["speed_mode"] != mode:
@@ -116,7 +116,7 @@ def save_resolution(output, cases):
                         [str(n) for n in next(iter(cases.values()))["reaches"]])
         axis.yaxis.set_major_formatter(FormatStrFormatter("%.6f"))
         axis.grid(alpha=.3)
-        axis.legend(fontsize=8, loc="lower right")
+        axis.legend(fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.19), ncol=3)
     fig.suptitle("Peak pressure rise versus reaches (horizontal scale: successive doubling)")
     fig.savefig(output/"convergence.png", dpi=160)
     plt.close(fig)
