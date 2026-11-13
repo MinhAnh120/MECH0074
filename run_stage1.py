@@ -1,7 +1,6 @@
 """Run the three labelled Stage 1 teaching cases and write reproducible outputs."""
 
 import argparse
-import csv
 from dataclasses import asdict
 import hashlib
 import json
@@ -10,6 +9,7 @@ from pathlib import Path
 import platform
 import numpy as np
 from stage1 import Case, estimate_period, simulate, spectrum, theory
+from resolution import DEFAULT_REACHES, TOLERANCE_PERCENT, refinement_change, resolution_study, save_resolution, validate_reaches
 
 
 def metrics(case, result):
@@ -37,20 +37,6 @@ def metrics(case, result):
             "first_phase_crossing_s": result["first_phase_crossing_s"],
             "phase_status": result["phase_status"],
             "interpolated_stations": result["interpolated_stations"]}
-
-
-def refinement_change(coarse, fine, coarse_metrics, fine_metrics, surge):
-    # Compare on common physical times; dt changes with refinement.
-    keep = coarse["time"] <= 1.0
-    t = coarse["time"][keep]
-    difference = max(np.max(abs(np.interp(t, fine["time"], fine["pressure"][:, j])
-                                - coarse["pressure"][keep, j]))
-                     for j in range(coarse["stations"].size))
-    changes = {"waveform_difference_percent": float(100*difference/surge)}
-    for key in ("first_valve_rise_pa", "period_s"):
-        a, b = coarse_metrics[key], fine_metrics[key]
-        changes[key+"_change_percent"] = None if a is None or b is None else 100*abs(b-a)/abs(b)
-    return changes
 
 
 def save_case(directory, name, case, short, frequency, amplitude):
@@ -97,28 +83,19 @@ def save_case(directory, name, case, short, frequency, amplitude):
 def run(output, reaches, periods, friction, phase_limit):
     import matplotlib
 
-    if len(reaches) < 3 or any(b != 2*a for a, b in zip(reaches, reaches[1:])):
-        raise ValueError("Supply at least three successively doubled reach counts.")
+    reaches = validate_reaches(reaches)
     if periods < 5:
         raise ValueError("Use at least five periods for the longer FFT record.")
     output.mkdir(parents=True, exist_ok=True)
     report = {"python": platform.python_version(), "numpy": np.__version__,
               "matplotlib": matplotlib.__version__, "sources": {}, "cases": {}}
-    for filename in ("stage1.py", "run_stage1.py"):
+    for filename in ("stage1.py", "run_stage1.py", "resolution.py"):
         report["sources"][filename] = hashlib.sha256(Path(__file__).with_name(filename).read_bytes()).hexdigest()
     cases = {"elastic_ideal": Case(phase_limit=phase_limit),
              "bulk_ideal": Case(speed_mode="bulk", phase_limit=phase_limit),
              "elastic_friction_sensitivity": Case(friction=friction, phase_limit=phase_limit)}
     for name, case in cases.items():
-        rows, previous, previous_metrics = [], None, None
-        for n in reaches:
-            short = simulate(case, n, 1.0)
-            row = {"reaches": n, **metrics(case, short)}
-            if previous is not None:
-                row["change_from_previous"] = refinement_change(
-                    previous, short, previous_metrics, row, theory(case)["surge_pa"])
-            rows.append(row)
-            previous, previous_metrics = short, row
+        short, rows, passing = resolution_study(case, reaches, metrics)
         finest = reaches[-1]
         # A fixed 50-period default window has the same duration on every grid.
         start = math.ceil(case.closure_time/short["dt"])+4*finest
@@ -127,6 +104,9 @@ def run(output, reaches, periods, friction, phase_limit):
         section = slice(start, start+samples)
         frequency, amplitude, peak = spectrum(long["time"][section], long["pressure"][section, -1])
         item = {"parameters_SI": asdict(case), "analytical": theory(case), "grids": rows,
+                "reaches": list(reaches), "production_reaches": finest,
+                "tolerance_percent": TOLERANCE_PERCENT,
+                "smallest_tested_passing_reaches": passing,
                 "long_record": {"samples": samples, "window": "Hann; mean removed",
                                 "start_s": float(long["time"][start]),
                                 "DFT_duration_s": samples*long["dt"],
@@ -138,20 +118,14 @@ def run(output, reaches, periods, friction, phase_limit):
         print(f"{name}: surge={rows[-1]['first_valve_rise_pa']/1e6:.6f} MPa, "
               f"FFT={peak:.6f} Hz; {long['phase_status']}")
     (output/"verification.json").write_text(json.dumps(report, indent=2, allow_nan=False)+"\n")
-    summary = [[name, row["reaches"], row["dt_s"], row["first_valve_rise_pa"],
-                row["period_s"], row["surge_error_percent"]]
-               for name, item in report["cases"].items() for row in item["grids"]]
-    with (output/"convergence.csv").open("w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["case", "reaches", "dt_s", "first_rise_pa", "period_s", "surge_error_percent"])
-        writer.writerows(summary)
+    save_resolution(output, report["cases"])
     return report
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=Path("results/latest"))
-    parser.add_argument("--reaches", type=int, nargs="+", default=[100, 200, 400])
+    parser.add_argument("--reaches", type=int, nargs="+", default=list(DEFAULT_REACHES))
     parser.add_argument("--periods", type=int, default=50)
     parser.add_argument("--friction", type=float, default=0.020,
                         help="Assumed Darcy factor for the sensitivity case only.")

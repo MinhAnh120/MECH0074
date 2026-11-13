@@ -28,6 +28,8 @@ The source notebook's full bytes and course PDFs/ZIP are not redistributed here.
 - Friend (1990), Cryogenics30,105–112, DOI10.1016/0011-2275(90)90254-A; accessible publisher abstract for composition dependence only.
 - Thol, Richter, May, Lemmon & Span (2019), JPCRD48,033102, DOI10.1063/1.5093800. NIST publication page abstract accessed. Its journal metadata incorrectly says Journal of Chemical and Engineering Data; the DOI/paper identify JPCRD. It supports mixture-specific thermodynamics, not a numerical bubble-point result for an unknown mixture.
 - Supplied params.py, 4233bytes, attachment9November: retained shared supplied/derived constants, corrected provenance wording only. New assumptions live in fluid_assumptions.py, not disguised as supplied parameters.
-- MECH0074 Group Presentation Layout.pdf,36pages: pp11–15 Stage1 allocation; p32 Minh-Anh recommendations; p35 model appendix. A planning document, not authority for prefilled numerical answers.
+- MECH0074 Group Presentation Layout.pdf,36pages: pp11–15 Stage1 allocation; p15 requests peak pressure rise in MPa against reaches and the longer-record spectrum; p32 Minh-Anh recommendations; p35 model appendix. A planning document, not authority for prefilled numerical answers.
+
+The13November resolution.py study, chosen N=10,20,40,80,160,320 sequence and strict1% criterion are project analysis choices. The maximum waveform error uses linear reconstruction of coarse output on finer times over the common first second, normalised by the same-speed Joukowsky rise. These choices are documented in VALIDATION.md; no coursework or literature source is claimed to prescribe this particular acceptance rule.
 
 No source supplied an actual LNG assay or pipe roughness. The nominal roughness and uncertainty envelopes are explicitly engineering choices. See FRICTION_AND_PHASE.md for access limitations, source-specific claims and conditional validity.

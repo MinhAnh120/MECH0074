@@ -49,7 +49,8 @@ The complete runner generates:
 | *_spectrum.csv | Mean-removed, Hann-windowed valve pressure amplitude versus frequency |
 | *_long_valve.csv | Full long valve histories for ideal/nominal cases |
 | *.png | Required short histories plus longer-record spectrum, phase threshold and labels |
-| convergence.csv / convergence.png | First rise and period for N=100,200,400 |
+| convergence.csv / convergence.png | First valve pressure rise in Pa and MPa for N=10,20,40,80,160,320; two speed panels |
+| convergence_error.png | Nominal first-rise and waveform differences against N=320, with the chosen 1% threshold |
 | theory_comparison.csv | Theory and measured first crest, arrivals, reservoir travel/return, period and FFT |
 | friction_sensitivity.csv | Friction, surge, minima, phase flags, period and frequency |
 | closure_sensitivity.csv | Additional0.020/0.10/0.25/0.50s closure scenarios; last case screened over50 periods |
@@ -57,7 +58,11 @@ The complete runner generates:
 
 Generated results/latest is ignored by Git. results/selected stores current compact reports, ideal/nominal benchmark CSVs and selected plots. Initial results remain in Git history. Rerun to produce all larger histories and spectra.
 
-Long FFT records use50 ideal periods, starting one period after the closure ramp. Their analysed windows are18.181818s bulk and20.042091s elastic, with bin spacing0.055/0.049895Hz. M=80000 at N400; DFT duration=M*dt, not(M-1)*dt. Time-domain period and an independent sinusoid check supplement this coherently chosen FFT record. Peak recovery is numerical verification, not experimental evidence.
+The default study successively doubles N=10,20,40,80,160,320. Both runners accept `--reaches 10 20 40 80 160 320`; at least three successively doubled positive integers are required. All final histories, long records and closure scenarios use the finest grid, N=320 by default. Only the 25 m station on N=10 needs spatial interpolation; all four stations lie on nodes for the other five grids. The CSV records this explicitly.
+
+Long FFT records use50 ideal periods, starting one period after the closure ramp. Their analysed windows are18.181818s bulk and20.042091s elastic, with bin spacing0.055/0.049895Hz. M=64000 at N320; DFT duration=M*dt, not(M-1)*dt. Time-domain period and an independent sinusoid check supplement this coherently chosen FFT record. Peak recovery is numerical verification, not experimental evidence.
+
+The chosen strict <1% criterion checks first-rise and period changes relative to the finer result, plus maximum absolute waveform difference divided by that case's Joukowsky rise. Coarse histories are linearly reconstructed on the finer time grid over the common first second at all four stations. This includes sampling/interpolation effects. Each candidate is compared with the next grid and with N=320, and must keep passing on subsequent tested grids. N=320 is a numerical reference, not an exact solution or a self-certified pass. The resulting smallest tested passing N is160 for bulk and20 for elastic in all five friction settings. Retain320 for a common production resolution. The peak alone is nearly unchanged even on coarse grids and cannot establish full-waveform convergence.
 
 ## Interpretation
 The auxiliary methane saturation threshold at111K is95873.89895Pa absolute. Actual LNG composition is unknown. All prescribed rapid-baseline cases cross this screen: full pressure traces, periods and spectra are **formal single-phase verification**. No pressure clipping, cavity model or physical approval is implied. The first positive crest occurs before the detected threshold crossing.
@@ -74,7 +79,7 @@ python export_bends.py route.json --out results/latest/bends --code-version YOUR
 Null geometry is deliberately rejected. The exporter preserves a common time vector and each station’s wave delay and writes complete metadata/phase flags. Physical interpretation still needs actual composition and appropriate hydraulic modelling. Geometry-specific convergence must be checked after route changes.
 
 ## Verification and sources
-Sixteen unittest cases cover the original eleven independent wave/steady/boundary/FFT/refinement checks plus correlation fixed points/residuals, shared input mapping, measured boundary timings, and the export contract using synthetic test geometry only. See [executed validation](docs/VALIDATION.md).
+Twenty unittest cases cover the original eleven independent wave/steady/boundary/FFT/refinement checks, five researched-model/export tests, and four checks of between-sample waveform error, grid/station sampling, strict tolerance and invalid grid inputs. Synthetic geometry is used only in export tests. See [executed validation](docs/VALIDATION.md).
 
 At Courant1 the ideal wave solution can match independent reflected finite ramps to roundoff. Grid convergence does not establish phase validity or code compliance. A proposed <1% refinement criterion is an engineering choice, not a UCL mark threshold. A slight first-crest increase with friction includes initial pressure-loss recovery.
 

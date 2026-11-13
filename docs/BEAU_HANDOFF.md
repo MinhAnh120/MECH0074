@@ -5,6 +5,13 @@ Use `results/selected/theory_comparison.csv`, `friction_sensitivity.csv`, `closu
 
 `complete_stage1.py` generates all ten cases, short histories, longer valve histories for ideal/nominal cases, spectra and plots. Every result has source hashes and a code-version field. The report identifies the code commit; the results commit is a later snapshot. Original brief/notebook material remains outside this public repository.
 
+## 13 November resolution update and access
+The current benchmark uses N=10,20,40,80,160,320; all selected histories and production results now use N=320. The long FFT windows still cover50 periods, now64000 samples. Re-run downstream calculations when replacing the older N=400 histories: time coordinates and row counts have changed. Seven source hashes, including resolution.py, identify the executed code.
+
+`convergence.csv` contains first_rise_mpa plus next-grid and finest-reference diagnostics. `convergence.png` is the slide-15 peak-rise plot; `convergence_error.png` shows why an almost flat peak curve is insufficient. The group-chosen strict1% checks use first rise, period and maximum reconstructed waveform difference over the first second. The smallest tested passing grid is160 for bulk and20 for elastic;320 is retained as the common production grid. The25m station is interpolated only at N=10. See VALIDATION.md for the exact definition and limitations.
+
+Access these files on `stage1-pressure-waves`, not the default main branch. The latest results commit is visible in the branch history and its verification.json gives the code revision. An existing clone, copied file set, merged import or separate branch does not automatically acquire these updates. Compare the revision before using it; bring the new snapshot into an integration branch and review it before merging into your own work. Resolve any conflicts on that integration branch, preserving Minh-Anh's source branch. No other branch has been updated as part of this resolution change.
+
 ## Shared conventions
 - SI: time s, hydraulic station m from reservoir along centreline, p_abs Pa, Q m3/s.
 - External pressure = **101325 Pa absolute**. Structural pressure above the exterior is **p_abs - 101325**, not delta-p from the initial condition. Initial nominal reservoir gauge pressure = 598675 Pa.

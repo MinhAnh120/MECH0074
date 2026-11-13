@@ -12,7 +12,8 @@ import platform
 import numpy as np
 import params as p
 from fluid_assumptions import PHASE_BASIS, friction_estimate, methane_saturation_pa
-from run_stage1 import metrics, refinement_change, save_case
+from run_stage1 import metrics, save_case
+from resolution import DEFAULT_REACHES, TOLERANCE_PERCENT, resolution_study, save_resolution, validate_reaches
 from stage1 import Case, simulate, spectrum, theory
 
 
@@ -26,7 +27,7 @@ def shared_case(mode, friction):
 
 def provenance(code_version):
     files = ("stage1.py", "run_stage1.py", "complete_stage1.py", "params.py",
-             "fluid_assumptions.py", "export_bends.py")
+             "fluid_assumptions.py", "export_bends.py", "resolution.py")
     return {"code_version": code_version, "python": platform.python_version(),
             "numpy": np.__version__, "source_sha256": {
                 name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
@@ -66,41 +67,31 @@ def comparison(case, short, measured, fft_peak):
     return rows
 
 
-def run(output, code_version="uncommitted; use source_sha256"):
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-
+def run(output, code_version="uncommitted; use source_sha256", reaches=DEFAULT_REACHES):
+    reaches = validate_reaches(reaches)
+    finest = reaches[-1]
     output.mkdir(parents=True, exist_ok=True)
     estimate = friction_estimate(p.RHO_LNG, p.U0, p.D_IN)
     report = {**provenance(code_version), "phase_basis": PHASE_BASIS,
               "actual_LNG_composition_known": False,
               "phase_limit_pa": methane_saturation_pa(p.T_OPERATE),
               "friction_assumptions": estimate, "cases": {}}
-    convergence, comparisons, sensitivities = [], [], []
+    comparisons, sensitivities = [], []
     factors = {"ideal": 0.0, "nominal": estimate["darcy_factor"],
                "lower": estimate["lower"], "upper": estimate["upper"], "teaching_f002": 0.020}
-    fig, axis = plt.subplots(figsize=(8, 5), constrained_layout=True)
     for mode in ("bulk", "elastic"):
         for label, factor in factors.items():
             name, case = f"{mode}_{label}", shared_case(mode, factor)
-            rows, previous, previous_metrics = [], None, None
-            for n in (100, 200, 400):
-                short = simulate(case, n, 1)
-                row = {"reaches": n, **metrics(case, short)}
-                if previous is not None:
-                    row["change_from_previous"] = refinement_change(
-                        previous, short, previous_metrics, row, theory(case)["surge_pa"])
-                rows.append(row)
-                convergence.append([name, n, row["dt_s"], row["first_valve_rise_pa"],
-                                    row["period_s"], row["surge_error_percent"]])
-                previous, previous_metrics = short, row
-            start = math.ceil(case.closure_time/short["dt"])+4*400
-            samples = 4*400*50
-            long = simulate(case, 400, (start+samples)*short["dt"])
+            short, rows, passing = resolution_study(case, reaches, metrics)
+            start = math.ceil(case.closure_time/short["dt"])+4*finest
+            samples = 4*finest*50
+            long = simulate(case, finest, (start+samples)*short["dt"])
             section = slice(start, start+samples)
             frequency, amplitude, peak = spectrum(long["time"][section], long["pressure"][section, -1])
             item = {"parameters_SI": asdict(case), "analytical": theory(case), "grids": rows,
+                    "reaches": list(reaches), "production_reaches": finest,
+                    "tolerance_percent": TOLERANCE_PERCENT,
+                    "smallest_tested_passing_reaches": passing,
                     "interpretation": "Formal single-phase verification; surrogate phase limit crossed"
                     if long["first_phase_crossing_s"] is not None else "Above surrogate threshold only; actual LNG unverified",
                     "long_record": {"start_s": float(long["time"][start]), "samples": samples,
@@ -116,20 +107,12 @@ def run(output, code_version="uncommitted; use source_sha256"):
                 np.savetxt(output/f"{name}_long_valve.csv",
                            np.column_stack((long["time"], long["pressure"][:, -1], long["flow"][:, -1])),
                            delimiter=",", fmt="%.10g", header="time_s,p_abs_valve_pa,Q_valve_m3_s", comments="")
-            axis.plot([r["reaches"] for r in rows],
-                      [r["first_valve_rise_pa"]/1e6 for r in rows], "o-", label=name)
             sensitivities.append([name, factor, item["analytical"]["speed_m_s"],
                                   rows[-1]["first_valve_rise_pa"], short["minimum_absolute_pa"],
                                   rows[-1]["period_s"], peak, short["first_phase_crossing_s"],
                                   short["phase_status"]])
             print(f"{name}: f_D={factor:.8f}; first rise={rows[-1]['first_valve_rise_pa']:.3f} Pa; {item['interpretation']}")
-    axis.set(xlabel="Number of reaches, N", ylabel="First valve pressure rise [MPa]",
-             title="Hydraulic resolution: ideal and assumed-friction cases", xticks=[100, 200, 400])
-    axis.grid(alpha=.3)
-    axis.legend(fontsize=8, loc="center left", bbox_to_anchor=(1.01, .5))
-    fig.savefig(output/"convergence.png", dpi=160)
-    plt.close(fig)
-    write_csv(output/"convergence.csv", ["case", "reaches", "dt_s", "first_rise_pa", "period_s", "surge_error_percent"], convergence)
+    save_resolution(output, report["cases"])
     write_csv(output/"theory_comparison.csv", ["case", "quantity", "unit", "theory", "computed", "computed_minus_theory"], comparisons)
     write_csv(output/"friction_sensitivity.csv", ["case", "darcy_factor", "speed_m_s", "first_rise_pa", "min_absolute_pa", "period_s", "fft_hz", "first_phase_crossing_s", "phase_status"], sensitivities)
     closure_rows = []
@@ -137,7 +120,7 @@ def run(output, code_version="uncommitted; use source_sha256"):
         for closure in (.020, .10, .25, .50):
             case = replace(shared_case(mode, estimate["darcy_factor"]), closure_time=closure)
             duration = 50*theory(case)["period_s"] if closure == .50 else 2.0
-            result = simulate(case, 400, duration)
+            result = simulate(case, finest, duration)
             closure_rows.append([mode, closure, duration, float(result["pressure"][:, -1].max()),
                                  result["minimum_absolute_pa"], result["first_phase_crossing_s"], result["phase_status"]])
     write_csv(output/"closure_sensitivity.csv", ["speed_mode", "closure_s", "record_duration_s", "max_valve_absolute_pa", "global_min_absolute_pa", "first_phase_crossing_s", "phase_status"], closure_rows)
@@ -148,6 +131,7 @@ def run(output, code_version="uncommitted; use source_sha256"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=Path("results/latest"))
+    parser.add_argument("--reaches", type=int, nargs="+", default=list(DEFAULT_REACHES))
     parser.add_argument("--code-version", default="uncommitted; use source_sha256")
     args = parser.parse_args()
-    run(args.out, args.code_version)
+    run(args.out, args.code_version, args.reaches)

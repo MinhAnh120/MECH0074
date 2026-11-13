@@ -13,6 +13,7 @@
 - Distinguish the supplied bulk sound speed (1100 m/s) from the lecture's effective pipe wave speed. Keep both labelled reference cases until the specification interpretation is settled.
 - Darcy factor 0.020 remains a teaching comparison. Read docs/FRICTION_AND_PHASE.md for the provisional Colebrook nominal/bounds and pure-methane phase screen; these are not measured LNG or pipe properties. Preserve the distinction between published correlations, adopted assumptions and actual unknown composition/finish.
 - Retain signed `Q*abs(Q)` friction, simultaneous old-to-new updates and `dt=dx/a`. Document any station interpolation.
+- Use the shared resolution.py defaults N=10,20,40,80,160,320 in both runners. Retain the finest grid for production. Compare reconstructed coarse histories on finer times, not only at coarse samples; label the finest reference and the chosen <1% criterion honestly. Keep the slide-15 peak-rise plot in MPa and the separate waveform diagnostic.
 - A mathematical single-phase verification trace is not an approved LNG design load. Report negative absolute pressure and missing/entered phase limits. Never clip pressure to conceal failure.
 - Actual loop geometry and bend station coordinates are not supplied. Do not invent them, or label benchmark stations as bend histories.
 
