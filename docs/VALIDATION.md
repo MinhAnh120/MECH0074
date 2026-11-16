@@ -1,18 +1,18 @@
-# Executed validation — 13 November 2026
+# Executed validation — 16 November 2026
 
-Code revision: c9a4b1b341e4350c43381d5d4f822787c7160327. Reports store this revision plus seven independent source SHA256 values, including resolution.py. The subsequent results commit contains data/documentation only.
+Code revision: dd410277c465aeb68836565b45040b8024bff6ca. Reports store this revision plus seven independent source SHA256 values, including resolution.py. The subsequent results commit contains data/documentation only.
 
 Executed successfully:
 
 ```sh
 python -m unittest discover -s tests -v
-python complete_stage1.py --out results/latest --code-version c9a4b1b341e4350c43381d5d4f822787c7160327
-python run_stage1.py --out results/run-legacy-six-grid --phase-limit-pa 95873.898949157
+python complete_stage1.py --out results/latest --code-version dd410277c465aeb68836565b45040b8024bff6ca
+python run_stage1.py --out results/run-legacy-seven-grid --phase-limit-pa 95873.898949157
 ```
 
 20 tests passed: the original11 numerical tests, five researched-model/export tests and four resolution tests. Python3.12.14, NumPy2.3.5, Matplotlib3.10.8. The new between-sample test independently demonstrates that comparing only at coarse times can miss waveform differences. Export tests use synthetic temporary geometry, not the actual loop. Null route input remains rejected.
 
-The complete runner finished10 cases: two speeds times five friction settings. Each case used N=10,20,40,80,160,320 for the first second. All production histories, long records and closure scenarios use320. Each FFT window still spans50 ideal pressure periods, now64000 samples. The windows last18.181818s bulk and20.042091s elastic. All seven source hashes were checked against the executed files. The legacy runner also completed the six-grid workflow.
+The complete runner finished10 cases: two speeds times five friction settings. Each case used N=5,10,20,40,80,160,320 for the first second. All production histories, long records and closure scenarios use320. Each FFT window still spans50 ideal pressure periods, now64000 samples. The windows last18.181818s bulk and20.042091s elastic. All seven source hashes were checked against the executed files. The legacy runner also completed the seven-grid workflow.
 
 | N=320 result | Bulk ideal | Elastic ideal | Bulk nominal | Elastic nominal |
 |---|---:|---:|---:|---:|
@@ -40,11 +40,11 @@ A candidate is labelled the smallest tested passing grid only if it and every su
 
 The same smallest tested passing N values apply to all five friction settings. The elastic20 result is specific to these properties, closure law and output checks; repeat the study after changing them. N=320 is retained as a common production resolution for both speeds. The ideal peak is flat to roundoff even on coarse grids; frictional peak changes are very small. A flat peak alone does not establish full-waveform convergence.
 
-Only the25m station on N=10 needs spatial interpolation; all stations fall on nodes for20–320. The CSV records this flag, first rise in both Pa/MPa, periods, analytical surge errors, next-grid and finest-reference comparisons. It contains60 rows, ten cases times six grids. MPa values were checked against Pa/1e6.
+At N=5 the10,25,50m stations need spatial interpolation; at N=10 only25m does. All stations fall on nodes for20–320. The CSV records this flag, first rise in both Pa/MPa, periods, analytical surge errors, next-grid and finest-reference comparisons. It contains70 rows, ten cases times seven grids. MPa values were checked against Pa/1e6.
 
 The peak-rise PNG and separate error PNG were visually reviewed. The peak plot has separate bulk/elastic panels, MPa labels and explicit successive-doubling horizontal scale. Legends lie below the data. The diagnostic plot retains the1% line and excludes self-comparison at320. Nominal history/spectrum plots retain time labels, longer-record titles, phase thresholds and unclipped curves. Benchmark fronts are independently measured; fixed-reservoir arrival uses flow. Reflection return is measured in frictionless cases only, not fabricated for frictional cases.
 
 ## Physical and handoff limits
 Physical validity has NOT passed: all0.020s baseline cases cross the sourced pure-methane surrogate threshold. First positive crests precede the crossing; complete later histories remain formal single-phase continuation. Actual LNG composition, mixture bubble point, pipe finish, cavity dynamics, actual bend-route convergence, experimental validation and code compliance remain unestablished. Closure scenarios are pressure studies only, not approved operating instructions or structural designs.
 
-The selected benchmark history CSVs have been regenerated at320. Beau must replace older400-grid files as a complete time/history set, check verification.json's code revision, and preserve the pressure convention/phase flags. Actual bend histories still require agreed route geometry and speed. Only stage1-pressure-waves was updated; no other branch was merged or modified.
+The selected benchmark history CSVs have been regenerated at320 and checked to be unchanged from the previous six-grid run; adding N=5 does not alter their time coordinates or values. The verification report records the new executed code revision. Beau must replace older400-grid files as a complete time/history set, check verification.json's code revision, and preserve the pressure convention/phase flags. Actual bend histories still require agreed route geometry and speed. Only stage1-pressure-waves was updated; no other branch was merged or modified.

@@ -1,5 +1,5 @@
 {
-  "code_version": "c9a4b1b341e4350c43381d5d4f822787c7160327",
+  "code_version": "dd410277c465aeb68836565b45040b8024bff6ca",
   "python": "3.12.14",
   "numpy": "2.3.5",
   "source_sha256": {
@@ -9,7 +9,7 @@
     "params.py": "c80dc12cde216e139bb782500bade5d94f1d12fdb846854840a2afa3f535e052",
     "fluid_assumptions.py": "9834fd6de706b4c399c1cba1538bf39e7c466d7fe50f0f1d786b638d2aaa99bd",
     "export_bends.py": "2d7fce8d1aea08a79a804998ce4ef326c9ec71ef94d5d169b6a23be995755bf3",
-    "resolution.py": "c6841fae2cf0d277c3c7d22b091e5fa596025089b370db2ad19853513c79f39c"
+    "resolution.py": "4c1a0eed470dd29cd8ba1602f94dd73140b4dfefb5dc501f6bebd19eb1fea2f2"
   },
   "phase_basis": "Pure methane surrogate at 111 K; actual LNG composition unknown",
   "actual_LNG_composition_known": false,
@@ -79,6 +79,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.01818181818181818,
+          "first_valve_rise_pa": 750750.0,
+          "surge_error_percent": 0.0,
+          "period_s": 0.3636363636363636,
+          "period_error_percent": -1.1102230246251565e-14,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.09090909090909091,
+              "error_s": 0.009090909090909094
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.07272727272727272,
+              "error_s": 0.004545454545454547
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.05454545454545454,
+              "error_s": 0.009090909090909087
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.01818181818181818,
+              "error_s": 0.01818181818181818
+            }
+          ],
+          "minimum_absolute_pa": -50750.0,
+          "first_nonpositive_s": 0.21818181818181817,
+          "first_phase_crossing_s": 0.19999999999999998,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 43.18181818181821,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 43.18181818181821,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.00909090909090909,
@@ -117,6 +169,11 @@
           "first_phase_crossing_s": 0.19999999999999998,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 43.18181818181821,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
           "change_to_next": {
             "waveform_difference_percent": 11.363636363636502,
             "first_valve_rise_pa_change_percent": 0.0,
@@ -409,6 +466,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -461,6 +519,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.01818181818181818,
+          "first_valve_rise_pa": 751270.2584789575,
+          "surge_error_percent": 0.06929849869563576,
+          "period_s": 0.3636360796278666,
+          "period_error_percent": -7.81023366869249e-05,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.09090909090909091,
+              "error_s": 0.009090909090909094
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.07272727272727272,
+              "error_s": 0.004545454545454547
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.05454545454545454,
+              "error_s": 0.009090909090909087
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.01818181818181818,
+              "error_s": 0.01818181818181818
+            }
+          ],
+          "minimum_absolute_pa": -49989.49687866561,
+          "first_nonpositive_s": 0.21818181818181817,
+          "first_phase_crossing_s": 0.19999999999999998,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 43.16036932904269,
+            "first_valve_rise_pa_change_percent": 0.006235046388159111,
+            "period_s_change_percent": 0.00010695959433976629
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 43.165732754587715,
+            "first_valve_rise_pa_change_percent": 0.01403823683902786,
+            "period_s_change_percent": 7.854185143964911e-05
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.00909090909090909,
@@ -499,6 +609,11 @@
           "first_phase_crossing_s": 0.19999999999999998,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 43.16036932904269,
+            "first_valve_rise_pa_change_percent": 0.006235046388159111,
+            "period_s_change_percent": 0.00010695959433976629
+          },
           "change_to_next": {
             "waveform_difference_percent": 11.358301555326557,
             "first_valve_rise_pa_change_percent": 0.003889249716206336,
@@ -791,6 +906,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -843,6 +959,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.01818181818181818,
+          "first_valve_rise_pa": 751203.8619564485,
+          "surge_error_percent": 0.06045447305340623,
+          "period_s": 0.36363611586562566,
+          "period_error_percent": -6.813695294649591e-05,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.09090909090909091,
+              "error_s": 0.009090909090909094
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.07272727272727272,
+              "error_s": 0.004545454545454547
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.05454545454545454,
+              "error_s": 0.009090909090909087
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.01818181818181818,
+              "error_s": 0.01818181818181818
+            }
+          ],
+          "minimum_absolute_pa": -50086.438906448224,
+          "first_nonpositive_s": 0.21818181818181817,
+          "first_phase_crossing_s": 0.19999999999999998,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 43.16310660245531,
+            "first_valve_rise_pa_change_percent": 0.005439997312829971,
+            "period_s_change_percent": 9.326165214215434e-05
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 43.16778562270072,
+            "first_valve_rise_pa_change_percent": 0.012248021026898419,
+            "period_s_change_percent": 6.847178698171046e-05
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.00909090909090909,
@@ -881,6 +1049,11 @@
           "first_phase_crossing_s": 0.19999999999999998,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 43.16310660245531,
+            "first_valve_rise_pa_change_percent": 0.005439997312829971,
+            "period_s_change_percent": 9.326165214215434e-05
+          },
           "change_to_next": {
             "waveform_difference_percent": 11.3589823201981,
             "first_valve_rise_pa_change_percent": 0.00339317486621426,
@@ -1173,6 +1346,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -1225,6 +1399,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.01818181818181818,
+          "first_valve_rise_pa": 751349.1067970195,
+          "surge_error_percent": 0.07980110516410122,
+          "period_s": 0.3636360365972289,
+          "period_error_percent": -8.99357620598451e-05,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.09090909090909091,
+              "error_s": 0.009090909090909094
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.07272727272727272,
+              "error_s": 0.004545454545454547
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.05454545454545454,
+              "error_s": 0.009090909090909087
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.01818181818181818,
+              "error_s": 0.01818181818181818
+            }
+          ],
+          "minimum_absolute_pa": -49874.418290114874,
+          "first_nonpositive_s": 0.21818181818181817,
+          "first_phase_crossing_s": 0.19999999999999998,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 43.15711874483892,
+            "first_valve_rise_pa_change_percent": 0.0071789378733997655,
+            "period_s_change_percent": 0.00012324433217671794
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 43.163294893956945,
+            "first_valve_rise_pa_change_percent": 0.016163662245541888,
+            "period_s_change_percent": 9.051794686058725e-05
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.00909090909090909,
@@ -1263,6 +1489,11 @@
           "first_phase_crossing_s": 0.19999999999999998,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 43.15711874483892,
+            "first_valve_rise_pa_change_percent": 0.0071789378733997655,
+            "period_s_change_percent": 0.00012324433217671794
+          },
           "change_to_next": {
             "waveform_difference_percent": 11.357493150440149,
             "first_valve_rise_pa_change_percent": 0.004478250690653552,
@@ -1555,6 +1786,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -1607,6 +1839,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.01818181818181818,
+          "first_valve_rise_pa": 751779.4005947973,
+          "surge_error_percent": 0.13711629634329814,
+          "period_s": 0.3636358018267916,
+          "period_error_percent": -0.0001544976323097913,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.08181818181818182,
+              "first_detected_s": 0.09090909090909091,
+              "error_s": 0.009090909090909094
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.06818181818181818,
+              "first_detected_s": 0.07272727272727272,
+              "error_s": 0.004545454545454547
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.045454545454545456,
+              "first_detected_s": 0.05454545454545454,
+              "error_s": 0.009090909090909087
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.01818181818181818,
+              "error_s": 0.01818181818181818
+            }
+          ],
+          "minimum_absolute_pa": -49247.240877547854,
+          "first_nonpositive_s": 0.21818181818181817,
+          "first_phase_crossing_s": 0.19999999999999998,
+          "phase_status": "nonpositive_absolute_pressure",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 43.139380095510575,
+            "first_valve_rise_pa_change_percent": 0.012325033317074187,
+            "period_s_change_percent": 0.00021245444341148081
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 43.14999083809693,
+            "first_valve_rise_pa_change_percent": 0.027752634462867187,
+            "period_s_change_percent": 0.00015620761946617102
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.00909090909090909,
@@ -1645,6 +1929,11 @@
           "first_phase_crossing_s": 0.19999999999999998,
           "phase_status": "nonpositive_absolute_pressure",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 43.139380095510575,
+            "first_valve_rise_pa_change_percent": 0.012325033317074187,
+            "period_s_change_percent": 0.00021245444341148081
+          },
           "change_to_next": {
             "waveform_difference_percent": 11.353082039894035,
             "first_valve_rise_pa_change_percent": 0.007690537582002063,
@@ -1937,6 +2226,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -1989,6 +2279,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.020042091050473568,
+          "first_valve_rise_pa": 681066.6594430758,
+          "surge_error_percent": 0.0,
+          "period_s": 0.40084182100947136,
+          "period_error_percent": 0.0,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.10021045525236784,
+              "error_s": 0.010021045525236777
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.08016836420189427,
+              "error_s": 0.0050105227626183885
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0601262731514207,
+              "error_s": 0.010021045525236784
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.020042091050473568,
+              "error_s": 0.020042091050473568
+            }
+          ],
+          "minimum_absolute_pa": 18933.340556924333,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.22046300155520926,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 50.0,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 50.0,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.010021045525236784,
@@ -2027,6 +2369,11 @@
           "first_phase_crossing_s": 0.22046300155520926,
           "phase_status": "phase_limit_crossed",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 50.0,
+            "first_valve_rise_pa_change_percent": 0.0,
+            "period_s_change_percent": 0.0
+          },
           "change_to_next": {
             "waveform_difference_percent": 12.526306906546116,
             "first_valve_rise_pa_change_percent": 0.0,
@@ -2319,6 +2666,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -2371,6 +2719,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.020042091050473568,
+          "first_valve_rise_pa": 681588.0032320216,
+          "surge_error_percent": 0.07654812957254009,
+          "period_s": 0.400841819181829,
+          "period_error_percent": -4.55951021383072e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.10021045525236784,
+              "error_s": 0.010021045525236777
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.08016836420189427,
+              "error_s": 0.0050105227626183885
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0601262731514207,
+              "error_s": 0.010021045525236784
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.020042091050473568,
+              "error_s": 0.020042091050473568
+            }
+          ],
+          "minimum_absolute_pa": 19714.111269293164,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.22046300155520926,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 49.97607870948657,
+            "first_valve_rise_pa_change_percent": 0.007177348594596403,
+            "period_s_change_percent": 3.085355710459323e-07
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 49.98231219907035,
+            "first_valve_rise_pa_change_percent": 0.01563939671984298,
+            "period_s_change_percent": 9.46472540046098e-07
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.010021045525236784,
@@ -2409,6 +2809,11 @@
           "first_phase_crossing_s": 0.22046300155520926,
           "phase_status": "phase_limit_crossed",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 49.97607870948657,
+            "first_valve_rise_pa_change_percent": 0.007177348594596403,
+            "period_s_change_percent": 3.085355710459323e-07
+          },
           "change_to_next": {
             "waveform_difference_percent": 12.520019667190795,
             "first_valve_rise_pa_change_percent": 0.004180729306448239,
@@ -2701,6 +3106,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -2753,6 +3159,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.020042091050473568,
+          "first_valve_rise_pa": 681521.4672908757,
+          "surge_error_percent": 0.06677875674780953,
+          "period_s": 0.40084181961785215,
+          "period_error_percent": -3.4717415609009095e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.10021045525236784,
+              "error_s": 0.010021045525236777
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.08016836420189427,
+              "error_s": 0.0050105227626183885
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0601262731514207,
+              "error_s": 0.010021045525236784
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.020042091050473568,
+              "error_s": 0.020042091050473568
+            }
+          ],
+          "minimum_absolute_pa": 19614.60464724395,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.22046300155520926,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 49.97913163850161,
+            "first_valve_rise_pa_change_percent": 0.006262359131822376,
+            "period_s_change_percent": 1.2381739019671794e-07
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 49.98456971345334,
+            "first_valve_rise_pa_change_percent": 0.01364528150384355,
+            "period_s_change_percent": 7.207445282933098e-07
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.010021045525236784,
@@ -2791,6 +3249,11 @@
           "first_phase_crossing_s": 0.22046300155520926,
           "phase_status": "phase_limit_crossed",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 49.97913163850161,
+            "first_valve_rise_pa_change_percent": 0.006262359131822376,
+            "period_s_change_percent": 1.2381739019671794e-07
+          },
           "change_to_next": {
             "waveform_difference_percent": 12.520821969164865,
             "first_valve_rise_pa_change_percent": 0.0036474993808127795,
@@ -3083,6 +3546,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -3135,6 +3599,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.020042091050473568,
+          "first_valve_rise_pa": 681667.0174599935,
+          "surge_error_percent": 0.08814967060766232,
+          "period_s": 0.4008418185873253,
+          "period_error_percent": -6.042648048598664e-07,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.10021045525236784,
+              "error_s": 0.010021045525236777
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.08016836420189427,
+              "error_s": 0.0050105227626183885
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0601262731514207,
+              "error_s": 0.010021045525236784
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.020042091050473568,
+              "error_s": 0.020042091050473568
+            }
+          ],
+          "minimum_absolute_pa": 19832.227073052316,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.22046300155520926,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 49.97245322790161,
+            "first_valve_rise_pa_change_percent": 0.008263552898373208,
+            "period_s_change_percent": 5.829300688264293e-07
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 49.97963125728372,
+            "first_valve_rise_pa_change_percent": 0.018006791634855347,
+            "period_s_change_percent": 1.2541940008238872e-06
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.010021045525236784,
@@ -3173,6 +3689,11 @@
           "first_phase_crossing_s": 0.22046300155520926,
           "phase_status": "phase_limit_crossed",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 49.97245322790161,
+            "first_valve_rise_pa_change_percent": 0.008263552898373208,
+            "period_s_change_percent": 5.829300688264293e-07
+          },
           "change_to_next": {
             "waveform_difference_percent": 12.519066937920776,
             "first_valve_rise_pa_change_percent": 0.0048138365364956475,
@@ -3465,6 +3986,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
@@ -3517,6 +4039,58 @@
       },
       "grids": [
         {
+          "reaches": 5,
+          "dx_m": 20.0,
+          "dt_s": 0.020042091050473568,
+          "first_valve_rise_pa": 682098.2232637919,
+          "surge_error_percent": 0.1514629744993945,
+          "period_s": 0.4008418138819336,
+          "period_error_percent": -1.7781422556595317e-06,
+          "arrivals": [
+            {
+              "station_m": 10.0,
+              "expected_s": 0.09018940972713106,
+              "first_detected_s": 0.10021045525236784,
+              "error_s": 0.010021045525236777
+            },
+            {
+              "station_m": 25.0,
+              "expected_s": 0.07515784143927588,
+              "first_detected_s": 0.08016836420189427,
+              "error_s": 0.0050105227626183885
+            },
+            {
+              "station_m": 50.0,
+              "expected_s": 0.05010522762618392,
+              "first_detected_s": 0.0601262731514207,
+              "error_s": 0.010021045525236784
+            },
+            {
+              "station_m": 100.0,
+              "expected_s": 0.0,
+              "first_detected_s": 0.020042091050473568,
+              "error_s": 0.020042091050473568
+            }
+          ],
+          "minimum_absolute_pa": 20475.820306071153,
+          "first_nonpositive_s": null,
+          "first_phase_crossing_s": 0.22046300155520926,
+          "phase_status": "phase_limit_crossed",
+          "interpolated_stations": true,
+          "change_to_next": {
+            "waveform_difference_percent": 49.952667820299226,
+            "first_valve_rise_pa_change_percent": 0.014183974335096574,
+            "period_s_change_percent": 3.1295259784734904e-06
+          },
+          "difference_from_finest": {
+            "waveform_difference_percent": 49.964999576312984,
+            "first_valve_rise_pa_change_percent": 0.030913028122942544,
+            "period_s_change_percent": 3.6882292867253925e-06
+          },
+          "meets_criterion_vs_next": false,
+          "meets_criterion_vs_finest": false
+        },
+        {
           "reaches": 10,
           "dx_m": 10.0,
           "dt_s": 0.010021045525236784,
@@ -3555,6 +4129,11 @@
           "first_phase_crossing_s": 0.22046300155520926,
           "phase_status": "phase_limit_crossed",
           "interpolated_stations": true,
+          "change_from_previous": {
+            "waveform_difference_percent": 49.952667820299226,
+            "first_valve_rise_pa_change_percent": 0.014183974335096574,
+            "period_s_change_percent": 3.1295259784734904e-06
+          },
           "change_to_next": {
             "waveform_difference_percent": 12.513868318704546,
             "first_valve_rise_pa_change_percent": 0.008266501362515494,
@@ -3847,6 +4426,7 @@
         }
       ],
       "reaches": [
+        5,
         10,
         20,
         40,
