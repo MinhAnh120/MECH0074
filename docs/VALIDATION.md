@@ -48,3 +48,13 @@ The peak-rise PNG and separate error PNG were visually reviewed. The peak plot h
 Physical validity has NOT passed: all0.020s baseline cases cross the sourced pure-methane surrogate threshold. First positive crests precede the crossing; complete later histories remain formal single-phase continuation. Actual LNG composition, mixture bubble point, pipe finish, cavity dynamics, actual bend-route convergence, experimental validation and code compliance remain unestablished. Closure scenarios are pressure studies only, not approved operating instructions or structural designs.
 
 The selected benchmark history CSVs have been regenerated at320 and checked to be unchanged from the previous six-grid run; adding N=5 does not alter their time coordinates or values. The verification report records the new executed code revision. Beau must replace older400-grid files as a complete time/history set, check verification.json's code revision, and preserve the pressure convention/phase flags. Actual bend histories still require agreed route geometry and speed. Only stage1-pressure-waves was updated; no other branch was merged or modified.
+
+## Separate base-10 convergence presentation — 16 November 2026
+Plotting code revision:5355290aaae173beb262e6a8447eb93decd0cba8. Executed `python plot_logarithmic_convergence.py --input results/selected/convergence.csv` and `python -m unittest discover -s tests -v`; all20 existing tests passed. This is postprocessing of the stored70-row convergence table, not a new hydraulic run. The hydraulic code, selected verification.json and its recorded solver revision remain unchanged.
+
+Created logarithmic_convergence.csv, logarithmic_convergence.png and logarithmic_convergence_error.png in results/selected. The new CSV is an identical copy of convergence.csv. The peak figure uses base-10 logarithmic x and linear pressure y; the diagnostic figure uses base-10 logarithmic x/y and preserves the1% criterion. Both figures were visually checked for powers-of-ten ticks, readable labels/legends, correct series and reference exclusion. All original convergence files and benchmark pressure/flow histories are retained unchanged.
+
+Re-run the separate plotting command after changing the input convergence CSV. Source identification (CSV canonicalised to UTF-8 with LF newlines):
+
+- Input CSV SHA256: `dde326281e1d88312c104a5590c7efa3a0f0e6bd5049b28e146eb264070013f1`
+- Plotting script SHA256: `d1f6c2df11da40dab3c4267c81f726c6c6deb841b96bebd601b732d8f99097fb`
