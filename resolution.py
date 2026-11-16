@@ -5,7 +5,7 @@ import math
 import numpy as np
 from stage1 import simulate, theory
 
-DEFAULT_REACHES = (10, 20, 40, 80, 160, 320)
+DEFAULT_REACHES = (5, 10, 20, 40, 80, 160, 320)
 TOLERANCE_PERCENT = 1.0
 
 

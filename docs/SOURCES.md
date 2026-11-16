@@ -33,3 +33,5 @@ The source notebook's full bytes and course PDFs/ZIP are not redistributed here.
 The13November resolution.py study, chosen N=10,20,40,80,160,320 sequence and strict1% criterion are project analysis choices. The maximum waveform error uses linear reconstruction of coarse output on finer times over the common first second, normalised by the same-speed Joukowsky rise. These choices are documented in VALIDATION.md; no coursework or literature source is claimed to prescribe this particular acceptance rule.
 
 No source supplied an actual LNG assay or pipe roughness. The nominal roughness and uncertainty envelopes are explicitly engineering choices. See FRICTION_AND_PHASE.md for access limitations, source-specific claims and conditional validity.
+
+On16November the user requested an additional N=5 point, extending the sequence to5,10,20,40,80,160,320. This changes the resolution study only; source physics and production resolution remain unchanged.

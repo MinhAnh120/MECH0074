@@ -49,7 +49,7 @@ The complete runner generates:
 | *_spectrum.csv | Mean-removed, Hann-windowed valve pressure amplitude versus frequency |
 | *_long_valve.csv | Full long valve histories for ideal/nominal cases |
 | *.png | Required short histories plus longer-record spectrum, phase threshold and labels |
-| convergence.csv / convergence.png | First valve pressure rise in Pa and MPa for N=10,20,40,80,160,320; two speed panels |
+| convergence.csv / convergence.png | First valve pressure rise in Pa and MPa for N=5,10,20,40,80,160,320; two speed panels |
 | convergence_error.png | Nominal first-rise and waveform differences against N=320, with the chosen 1% threshold |
 | theory_comparison.csv | Theory and measured first crest, arrivals, reservoir travel/return, period and FFT |
 | friction_sensitivity.csv | Friction, surge, minima, phase flags, period and frequency |
@@ -58,7 +58,7 @@ The complete runner generates:
 
 Generated results/latest is ignored by Git. results/selected stores current compact reports, ideal/nominal benchmark CSVs and selected plots. Initial results remain in Git history. Rerun to produce all larger histories and spectra.
 
-The default study successively doubles N=10,20,40,80,160,320. Both runners accept `--reaches 10 20 40 80 160 320`; at least three successively doubled positive integers are required. All final histories, long records and closure scenarios use the finest grid, N=320 by default. Only the 25 m station on N=10 needs spatial interpolation; all four stations lie on nodes for the other five grids. The CSV records this explicitly.
+The default study successively doubles N=5,10,20,40,80,160,320. Both runners accept `--reaches 5 10 20 40 80 160 320`; at least three successively doubled positive integers are required. All final histories, long records and closure scenarios use the finest grid, N=320 by default. At N=5, the 10, 25 and 50 m stations need spatial interpolation; at N=10, only 25 m does. All four stations lie on nodes for N=20–320. The CSV records this explicitly.
 
 Long FFT records use50 ideal periods, starting one period after the closure ramp. Their analysed windows are18.181818s bulk and20.042091s elastic, with bin spacing0.055/0.049895Hz. M=64000 at N320; DFT duration=M*dt, not(M-1)*dt. Time-domain period and an independent sinusoid check supplement this coherently chosen FFT record. Peak recovery is numerical verification, not experimental evidence.
 

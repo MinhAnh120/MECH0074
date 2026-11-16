@@ -20,13 +20,15 @@ class ResolutionTests(unittest.TestCase):
         self.assertEqual(change["waveform_difference_percent"], 100.)
         self.assertFalse(meets_tolerance(change))
 
-    def test_six_grids_and_explicit_station_sampling(self):
+    def test_seven_grids_and_explicit_station_sampling(self):
         case = shared_case("elastic", friction_estimate()["darcy_factor"])
         finest, rows, passing = resolution_study(case, DEFAULT_REACHES, metrics)
         self.assertEqual([r["reaches"] for r in rows], list(DEFAULT_REACHES))
         self.assertAlmostEqual(finest["dx"], 100/320)
-        self.assertTrue(rows[0]["interpolated_stations"])
-        self.assertTrue(all(not r["interpolated_stations"] for r in rows[1:]))
+        self.assertEqual(len(rows), 7)
+        self.assertAlmostEqual(rows[0]["dx_m"], 20.)
+        self.assertTrue(all(r["interpolated_stations"] for r in rows[:2]))
+        self.assertTrue(all(not r["interpolated_stations"] for r in rows[2:]))
         self.assertIsNone(rows[-1]["difference_from_finest"])
         self.assertIsNone(rows[-1]["meets_criterion_vs_finest"])
         self.assertFalse(rows[0]["meets_criterion_vs_finest"])
