@@ -12,6 +12,8 @@ The current benchmark uses N=5,10,20,40,80,160,320; all selected histories and p
 
 Access these files on `stage1-pressure-waves`, not the default main branch. The latest results commit is visible in the branch history and its verification.json gives the code revision. An existing clone, copied file set, merged import or separate branch does not automatically acquire these updates. Compare the revision before using it; bring the new snapshot into an integration branch and review it before merging into your own work. Resolve any conflicts on that integration branch, preserving Minh-Anh's source branch. No other branch has been updated as part of this resolution change.
 
+The optional `logarithmic_convergence.csv`, `logarithmic_convergence.png` and `logarithmic_convergence_error.png` provide a separate base-10 display of the same convergence data. The original files are retained. The peak figure has linear pressure y; the error figure has logarithmic y and the same1% criterion. This is a plotting-only addition: pressure/flow histories, parameters and hydraulic verification.json remain unchanged. Reproduce it with `python plot_logarithmic_convergence.py --input results/selected/convergence.csv` after refreshing the source CSV.
+
 ## Shared conventions
 - SI: time s, hydraulic station m from reservoir along centreline, p_abs Pa, Q m3/s.
 - External pressure = **101325 Pa absolute**. Structural pressure above the exterior is **p_abs - 101325**, not delta-p from the initial condition. Initial nominal reservoir gauge pressure = 598675 Pa.

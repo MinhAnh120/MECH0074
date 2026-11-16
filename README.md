@@ -58,6 +58,14 @@ The complete runner generates:
 
 Generated results/latest is ignored by Git. results/selected stores current compact reports, ideal/nominal benchmark CSVs and selected plots. Initial results remain in Git history. Rerun to produce all larger histories and spectra.
 
+An optional base-10 presentation is generated separately, without replacing any original convergence files:
+
+```sh
+python plot_logarithmic_convergence.py --input results/selected/convergence.csv
+```
+
+This adds `logarithmic_convergence.csv` (an identical data copy), `logarithmic_convergence.png` (base-10 logarithmic x, linear pressure y), and `logarithmic_convergence_error.png` (base-10 logarithmic x/y, retaining the1% criterion). The original base-2 plots remain available. Powers-of-ten ticks change the presentation, not the numerical data or relative point spacing. For a newly simulated run, use `--input results/latest/convergence.csv`; outputs default to the input directory. Re-run this plotting command whenever its input CSV changes. It does not execute the hydraulic solver.
+
 The default study successively doubles N=5,10,20,40,80,160,320. Both runners accept `--reaches 5 10 20 40 80 160 320`; at least three successively doubled positive integers are required. All final histories, long records and closure scenarios use the finest grid, N=320 by default. At N=5, the 10, 25 and 50 m stations need spatial interpolation; at N=10, only 25 m does. All four stations lie on nodes for N=20–320. The CSV records this explicitly.
 
 Long FFT records use50 ideal periods, starting one period after the closure ramp. Their analysed windows are18.181818s bulk and20.042091s elastic, with bin spacing0.055/0.049895Hz. M=64000 at N320; DFT duration=M*dt, not(M-1)*dt. Time-domain period and an independent sinusoid check supplement this coherently chosen FFT record. Peak recovery is numerical verification, not experimental evidence.
