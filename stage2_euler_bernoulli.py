@@ -132,16 +132,17 @@ for n in range(1, N_MODES + 1):
 fig, ax = plt.subplots(figsize=(8, 4.5))
 colors = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
 for n in range(1, N_MODES + 1):
-    ax.plot(xi, mode_shape(n, xi), lw=2, color=colors[n-1], label=f"mode {n}")
+    ax.plot(xi, mode_shape(n, xi), lw=2, color=colors[n-1], label=f"Mode {n}")
 ax.axhline(0, color="#8a8984", lw=0.8)
 for s in ("top", "right"):
     ax.spines[s].set_visible(False)
-ax.set_xlabel("x / L  (0 = fixed end, 1 = free end)")
-ax.set_ylabel("W_n (tip normalised to 1)")
-ax.set_title("Euler-Bernoulli cantilever mode shapes (independent of L)", loc="left")
-ax.legend(frameon=False, ncol=3, fontsize=8)
+ax.set_xlabel(r"$x/L$  (0 = Fixed End, 1 = Free End)")
+ax.set_ylabel(r"Normalised Deflection, $W_n(x)\,/\,W_n(L)$")
+ax.set_title(r"Euler–Bernoulli Cantilever Mode Shapes (Independent of $L$)", loc="left")
+ax.legend(loc="center left", bbox_to_anchor=(1.02, 0.5), frameon=True,
+          fancybox=False, edgecolor="#8a8984", framealpha=1, fontsize=9)
 fig.tight_layout()
-fig.savefig("stage2_EB_mode_shapes.png", dpi=150)
+fig.savefig("stage2_EB_mode_shapes.png", dpi=150, bbox_inches="tight")
 
 # --------------------------------------------------------------------------
 # STEP 10 - checks

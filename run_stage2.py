@@ -23,6 +23,7 @@ REQUIRED = ["params.py", "stage2_euler_bernoulli.py", "stage2_cantilever.py", "s
 SEQUENCE = ["stage2_euler_bernoulli.py", "stage2_cantilever.py", "stage2_results.py"]
 EXPECTED_OUTPUTS = [
     "stage2_EB_mode_shapes.png",
+    "stage2_table_frequencies.csv",
     "stage2_table_comparison.csv",
     "stage2_table_mesh.csv",
     "stage2_fig_comparison.png",

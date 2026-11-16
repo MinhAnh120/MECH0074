@@ -18,6 +18,7 @@ N_BENDS = 4
 # ---------------------------------------------------------------- material: 304 stainless (brief)
 RHO_STEEL = 8000.0       # kg/m^3
 E_STEEL = 213.233e9      # Young's modulus (NIST fit), Pa
+NU_STEEL = 0.29          # Poisson's ratio, 304 SS (TBC: typical datasheet value, confirm source)
 ALPHA = 1.4e-5           # thermal expansivity, 1/K (confirmed on Moodle)
 T_INSTALL = 293.0        # K
 T_OPERATE = 111.0        # K
