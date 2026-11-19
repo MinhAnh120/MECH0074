@@ -1,0 +1,3 @@
+speed_mode,production_n,finer_n,first_rise_difference_pct,period_difference_pct,waveform_difference_pct_of_joukowsky,criterion_pct,passes
+bulk,320,640,0.00013503833211029928,1.1503978275070606e-09,0.5677579489186204,1.0,True
+elastic,320,640,0.00014878322053321147,3.50509142791685e-11,0.21033139724267239,1.0,True

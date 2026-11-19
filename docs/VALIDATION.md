@@ -58,3 +58,28 @@ Re-run the separate plotting command after changing the input convergence CSV. S
 
 - Input CSV SHA256: `dde326281e1d88312c104a5590c7efa3a0f0e6bd5049b28e146eb264070013f1`
 - Plotting script SHA256: `d1f6c2df11da40dab3c4267c81f726c6c6deb841b96bebd601b732d8f99097fb`
+
+## Presentation evidence — 19 November 2026
+
+The optional `stage1_evidence.py` runner at revision `5ffa8df50b7c1a5ea026a7789e00c85af59f6bce` reads the full researched benchmark outputs. The supplied benchmark inputs, MOC solver, production resolution and oscillation records are the same as in the seven-grid run above.
+
+```sh
+python -m unittest discover -s tests -v
+python complete_stage1.py --out results/latest --code-version dd410277c465aeb68836565b45040b8024bff6ca
+python stage1_evidence.py --input results/latest --out results/selected/evidence
+```
+
+The full rerun and evidence generator completed with Python 3.12.14, NumPy 2.3.5 and Matplotlib 3.10.8. All 20 tests passed. The rerun reproduced the tracked verification report, convergence, friction, closure and theory tables, and both nominal pressure/flow CSVs. The evidence generator checks the reported source hashes before combining stored and new calculations.
+
+| Check | Bulk | Elastic |
+|---|---:|---:|
+| Ideal 10 m first pressure rise, MPa | 0.682500 | 0.681067 |
+| Nominal fundamental from the approximately 17 s window, interpolated spectrum, Hz | 2.7491 | 2.4954 |
+| Nominal fundamental from repeated pressure crossings in that window, Hz | 2.7500 | 2.4947 |
+| Nominal 320-to-640 maximum waveform difference, % of Joukowsky rise | 0.56776 | 0.21033 |
+
+The frictionless MOC and analytical finite ramps agree at the recorded N = 320 samples to within 1e-8 Pa. Dotted arrival lines indicate the mathematical start of each ramp. The table reports the first detectable numerical sample, one time step later in these aligned cases. At 10 m the incident and reflected fronts are 18.18 ms apart for bulk speed, shorter than the 20 ms closure. At elastic speed the separation is 20.04 ms. The analytical overlay and its reflected-wave zoom show the frictionless verification case. The diagnostic at N = 640 is separate from the original seven-grid series. Its first-rise and period differences also meet the strict 1% benchmark criterion.
+
+The plotted spectrum uses the original 50-period Hann-windowed, mean-removed record. The 0–3 s panel is a visual crop. The second FFT checks the same nominal simulations over 0.5–17.5 s with approximately 0.059 Hz native bin spacing. Its peak is refined with a parabola through three adjacent log-amplitude bins. The crossing estimate uses the median time between equivalent upward crossings of the reservoir pressure. Harmonic amplitudes are single-sided valve-pressure amplitudes at the bins nearest the first four odd harmonic targets. The FFT precision represents estimator agreement for this formal simulation. See Harris (1978) for finite records and spectral windows, as cited in SOURCES.md.
+
+The closure figure compares each model over a common 2 s window, ending at the last full time step. The original longer 0.50 s scenario remains in the existing sensitivity table. The 0.02 s and 0.10 s nominal scenarios cross the pure-methane surrogate at 111 K. The 0.25 s and 0.50 s scenarios stay above that surrogate over the comparison window. Route-specific loading and an LNG-composition phase assessment are still needed to establish an operating closure time. Use the valve spectrum as a benchmark when interpreting the eventual local bend-force spectra.
