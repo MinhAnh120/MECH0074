@@ -87,6 +87,22 @@ python export_bends.py route.json --out results/latest/bends --code-version YOUR
 Null geometry is deliberately rejected. The exporter preserves a common time vector and each station’s wave delay and writes complete metadata/phase flags. Physical interpretation still needs actual composition and appropriate hydraulic modelling. Geometry-specific convergence must be checked after route changes.
 
 ## Verification and sources
+
+The [Stage 1 evidence folder](results/selected/evidence/) contains plots and tables for the presentation and model appendix. Regenerate them after the full benchmark run:
+
+```sh
+python stage1_evidence.py --input results/latest --out results/selected/evidence
+```
+
+| Slide | Evidence to use |
+|---|---|
+| 13 | `benchmark_pressure_overlay.png` shows the four 1 s pressure histories with the analytical finite-closure solution. |
+| 14 | `benchmark_checks.csv` compares the surge, arrivals, return time and period with theory. `valve_reflection_zoom.png` shows when the reflected front starts and when the methane surrogate threshold is crossed. |
+| 15 | Keep the existing peak-rise plot. `waveform_convergence.png` explains the choice of N = 320. `valve_record_and_spectrum.png` combines the first 3 s of the valve record with the spectrum from the full analysis window. |
+| 32 | `closure_pressure_comparison.png` compares the recorded maxima and minima over the first 2 s. The cases are benchmark scenarios for discussion. |
+
+The full time histories and spectra are generated in `results/latest` for the reproducible submission ZIP. See [executed validation](docs/VALIDATION.md) for the frequency estimator, the check at N = 640 and the limitations of the phase screen.
+
 Twenty unittest cases cover the original eleven independent wave/steady/boundary/FFT/refinement checks, five researched-model/export tests, and four checks of between-sample waveform error, grid/station sampling, strict tolerance and invalid grid inputs. Synthetic geometry is used only in export tests. See [executed validation](docs/VALIDATION.md).
 
 At Courant1 the ideal wave solution can match independent reflected finite ramps to roundoff. Grid convergence does not establish phase validity or code compliance. A proposed <1% refinement criterion is an engineering choice, not a UCL mark threshold. A slight first-crest increase with friction includes initial pressure-loss recovery.
