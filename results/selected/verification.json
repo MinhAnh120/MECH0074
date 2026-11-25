@@ -1,15 +1,15 @@
 {
-  "code_version": "dd410277c465aeb68836565b45040b8024bff6ca",
+  "code_version": "f11755ed1b85c2c1d5232a473ae85b4b5fec1620",
   "python": "3.12.14",
   "numpy": "2.3.5",
   "source_sha256": {
     "stage1.py": "c205473c7ec29739c38161fc03e8bb314eb2e5772be3e9f7b8c156a2ff462da1",
-    "run_stage1.py": "0afa4b17b39d5dca22f77e25933056b9a8c2b4820e67ce6aa6713c734a937f03",
-    "complete_stage1.py": "2ce7a407fa2ca3d00909ba69e7ac02712d088de2d2b91d76e0bff1014c0eaa81",
+    "run_stage1.py": "db84e1dd0479fa3c97d21dd778e994a55c05ad4dadd898ce5e922e8ea6d3b1f1",
+    "complete_stage1.py": "6d559dab04af30d7bf4c0f8705d4dc9e0f813b84a282d60a267a571cd3c6ceb1",
     "params.py": "c80dc12cde216e139bb782500bade5d94f1d12fdb846854840a2afa3f535e052",
-    "fluid_assumptions.py": "9834fd6de706b4c399c1cba1538bf39e7c466d7fe50f0f1d786b638d2aaa99bd",
+    "fluid_assumptions.py": "45d1bc735008e73b8fcf9a23ffe80113efedf052f7a288f10c7ff4f5142e3ec7",
     "export_bends.py": "2d7fce8d1aea08a79a804998ce4ef326c9ec71ef94d5d169b6a23be995755bf3",
-    "resolution.py": "4c1a0eed470dd29cd8ba1602f94dd73140b4dfefb5dc501f6bebd19eb1fea2f2"
+    "resolution.py": "aa5b8fe0c4517d9bbced417608ce4af46c041743ec8ce9272832aa3494ea07d8"
   },
   "phase_basis": "Pure methane surrogate at 111 K; actual LNG composition unknown",
   "actual_LNG_composition_known": false,
