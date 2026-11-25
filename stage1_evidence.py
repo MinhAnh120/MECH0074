@@ -14,8 +14,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from complete_stage1 import comparison, write_csv
+from fluid_assumptions import PHASE_LABEL
 from resolution import TOLERANCE_PERCENT, meets_tolerance, refinement_change
-from run_stage1 import metrics
+from run_stage1 import metrics, plot_valve_spectrum
 from stage1 import Case, estimate_period, simulate, spectrum, theory
 
 MODES = ("bulk", "elastic")
@@ -53,7 +54,7 @@ def pressure_figures(case, run, output):
         axis.plot(dense, exact[:, i] / 1e6, "k--", lw=1.1, label="Analytical finite closure")
         axis.axvline(arrival, color="0.45", ls=":", lw=1, label="First arrival")
         if crossing is not None:
-            axis.axvspan(crossing, 1, color="#e6b96f", alpha=.18, label="After first phase-screen crossing")
+            axis.axvspan(crossing, 1, color="#e6b96f", alpha=.18, label="Single-phase continuation after crossing")
         axis.set(xlim=(0, 1), title=f"Valve ({station:g} m)" if station == case.length else f"{station:g} m from reservoir")
         axis.grid(alpha=.25)
     handles, labels = axes[0, 0].get_legend_handles_labels()
@@ -61,7 +62,7 @@ def pressure_figures(case, run, output):
     for axis in axes[-1]:
         axis.set_xlabel("Time after closure starts [s]")
     fig.supylabel("Absolute pressure [MPa]")
-    fig.suptitle("100 m benchmark | bulk wave speed, frictionless\nFormal single-phase verification")
+    fig.suptitle("100 m benchmark | c = 1100 m/s, frictionless")
     save(fig, output, "benchmark_pressure_overlay.png")
 
     fig, axis = plt.subplots(figsize=(8.5, 4), layout="constrained")
@@ -69,16 +70,29 @@ def pressure_figures(case, run, output):
     axis.plot(time, run["pressure"][:, -1] / 1e6, color=COLORS["bulk"], lw=2, label="MOC")
     axis.plot(dense, exact[:, -1] / 1e6, "k--", lw=1, label="Analytical finite closure")
     axis.axvline(t_return, color="0.4", ls=":", label=f"First return at {t_return * 1e3:.2f} ms")
-    axis.axhline(case.phase_limit / 1e6, color="#9b6000", ls="--", label="Methane surrogate phase threshold")
+    axis.axhline(case.phase_limit / 1e6, color="#9b6000", ls="--", label=PHASE_LABEL)
     if crossing is not None:
         axis.axvspan(crossing, t_return + 1.5 * case.closure_time, color="#e6b96f", alpha=.18,
-                     label="After first phase-screen crossing")
+                     label="Single-phase continuation after crossing")
     axis.set(xlim=(t_return - .4 * case.closure_time, t_return + 1.5 * case.closure_time),
              ylim=(-.15, 1.55), xlabel="Time after closure starts [s]", ylabel="Valve absolute pressure [MPa]",
-             title="First reservoir reflection at the valve | formal single-phase verification")
+             title="First reservoir reflection at the valve")
     axis.legend(fontsize=8, loc="upper right")
     axis.grid(alpha=.25)
     save(fig, output, "valve_reflection_zoom.png")
+
+
+def plot_valve_trace(axis, time, pressure, case, crossing):
+    keep = time <= 3
+    axis.plot(time[keep], pressure[keep] / 1e6, color=COLORS["bulk"])
+    axis.axhline(case.phase_limit / 1e6, color="#9b6000", ls="--", lw=1, label=PHASE_LABEL)
+    if crossing is not None and crossing < 3:
+        axis.axvspan(crossing, 3, color="#e6b96f", alpha=.18,
+                    label=f"Single-phase continuation after screen crossing ({crossing:.3f} s)")
+    axis.set(xlim=(0, 3), xlabel="Time after closure starts [s]", ylabel="Valve absolute pressure [MPa]",
+             title="First 3 s of the valve record")
+    axis.legend(fontsize=8, loc="upper right")
+    axis.grid(alpha=.22)
 
 
 def valve_frequency(case, item, source, output):
@@ -110,27 +124,18 @@ def valve_frequency(case, item, source, output):
         j = np.argmin(abs(frequency - order * target))
         harmonics.append([mode, order, order * target, frequency[j], amplitude[j]])
     if mode == "bulk":
-        fig, (trace, spectral) = plt.subplots(2, 1, figsize=(9.5, 6.8), layout="constrained")
-        keep = time <= 3 + dt
-        trace.plot(time[keep], pressure[keep] / 1e6, color=COLORS[mode])
-        trace.axhline(case.phase_limit / 1e6, color="#9b6000", ls="--", lw=1, label="Methane surrogate threshold")
         crossing = long_record["first_phase_crossing_s"]
-        if crossing is not None and crossing < 3:
-            trace.axvspan(crossing, 3, color="#e6b96f", alpha=.18, label=f"After first crossing ({crossing:.3f} s)")
-        trace.set(xlim=(0, 3), xlabel="Time after closure starts [s]", ylabel="Valve absolute pressure [MPa]",
-                  title="First 3 s of the valve record")
-        trace.legend(fontsize=8, loc="upper right")
-        spectral.plot(frequency, amplitude / 1e6, color=COLORS[mode])
-        for _, order, harmonic_hz, _, _ in harmonics:
-            spectral.axvline(harmonic_hz, color="0.45", ls=":", lw=1)
-            spectral.text(harmonic_hz + (.4 if order == 1 else 0), .90 if order == 1 else .78,
-                          f"{harmonic_hz:.2f} Hz", transform=spectral.get_xaxis_transform(),
-                          ha="left" if order == 1 else "center", fontsize=8)
-        spectral.set(xlim=(0, 20), xlabel="Frequency [Hz]", ylabel="Valve pressure amplitude [MPa]",
-                     title=f"Hann-windowed spectrum | {len(time[official]) * dt:.2f} s analysed")
-        for axis in (trace, spectral):
-            axis.grid(alpha=.22)
-        fig.suptitle("Bulk benchmark with nominal friction | formal single-phase verification")
+        fig, trace = plt.subplots(figsize=(9.5, 3.8), layout="constrained")
+        plot_valve_trace(trace, time, pressure, case, crossing)
+        fig.suptitle("100 m benchmark | c = 1100 m/s, nominal friction")
+        save(fig, output, "valve_pressure_3s.png")
+
+        fig, (trace, spectral) = plt.subplots(2, 1, figsize=(9.5, 6.8), layout="constrained")
+        plot_valve_trace(trace, time, pressure, case, crossing)
+        plot_valve_spectrum(spectral, case, frequency, amplitude)
+        spectral.set_title(f"Hann-windowed spectrum | {len(time[official]) * dt:.2f} s analysed")
+        spectral.grid(alpha=.22)
+        fig.suptitle("100 m benchmark | c = 1100 m/s, nominal friction")
         save(fig, output, "valve_record_and_spectrum.png")
     return rows, harmonics
 
@@ -147,7 +152,9 @@ def waveform_figure(source, output):
     reference = data[0]["reference_reaches"]
     axis.axhline(TOLERANCE_PERCENT, color="k", ls="--", label=f"Chosen {TOLERANCE_PERCENT:g}% criterion")
     axis.set(xlabel="Number of reaches, N [log scale]", ylabel="Maximum difference / Joukowsky rise [%]",
-             title=f"Pressure histories compared with N = {reference}\nFirst second, four stations, nominal friction")
+             title="Pressure waveform sensitivity to mesh size")
+    fig.supxlabel(f"Reference mesh: N = {reference}. Maximum over 0–1 s at 10, 25, 50 and 100 m.",
+                   fontsize=9)
     axis.legend()
     axis.grid(which="both", alpha=.22)
     save(fig, output, "waveform_convergence.png")
@@ -162,7 +169,7 @@ def closure_figure(rows, phase_limit, output):
                       color=COLORS[mode], label=mode.capitalize())
     peak.set_title("Maximum valve pressure")
     minimum.set_title("Minimum pressure anywhere in the pipe")
-    minimum.axhline(phase_limit / 1e6, color="#9b6000", ls="--", label="Methane surrogate threshold")
+    minimum.axhline(phase_limit / 1e6, color="#9b6000", ls="--", label=PHASE_LABEL)
     for axis in (peak, minimum):
         axis.set_xlabel("Closure time [s]")
         axis.set_xticks([.02, .10, .25, .50])
@@ -171,6 +178,49 @@ def closure_figure(rows, phase_limit, output):
     fig.supylabel("Absolute pressure [MPa]")
     fig.suptitle("Closure sensitivity over the first 2 s | 100 m benchmark, nominal friction")
     save(fig, output, "closure_pressure_comparison.png")
+
+
+def theory_figure(source, output, dt):
+    with (source / "theory_comparison.csv").open(newline="") as file:
+        rows = {r["quantity"]: r for r in csv.DictReader(file) if r["case"] == "bulk_ideal"}
+
+    headline = (
+        ("first_valve_rise", "First valve rise [MPa]", 1e-6, 5),
+        ("reservoir_reflection_return_at_valve", "First valve return [ms]", 1e3, 3),
+        ("pressure_period", "Pressure period [ms]", 1e3, 3),
+        ("long_record_fft_peak", "Dominant FFT peak [Hz]", 1., 3),
+    )
+    values = [[label, *(f"{float(rows[key][column]) * scale:.{digits}f}"
+                        for column in ("theory", "computed"))]
+              for key, label, scale, digits in headline]
+    arrivals = (
+        ("first_arrival_x100", "Valve (closure starts)"),
+        ("first_arrival_x50", "50 m station"),
+        ("first_arrival_x25", "25 m station"),
+        ("first_arrival_x10", "10 m station"),
+        ("reservoir_one_way_arrival_using_flow", "Reservoir (from flow)"),
+        ("reservoir_reflection_return_at_valve", "First return to valve"),
+    )
+    fig, (left, timing) = plt.subplots(1, 2, figsize=(11, 4), layout="constrained")
+    left.axis("off")
+    table = left.table(cellText=values, colLabels=["Quantity", "Theory", "MOC / FFT"],
+                       colWidths=[.49, .24, .27], loc="center", cellLoc="left", colLoc="left")
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1, 1.7)
+    for (row, _), cell in table.get_celld().items():
+        cell.set_edgecolor("#dbe1e7")
+        cell.set_facecolor("#e8f1f8" if row == 0 else "white")
+    timing.axvline(dt * 1e3, color="#d55e00", ls="--", label=f"One time step ({dt * 1e3:.3f} ms)")
+    timing.scatter([float(rows[key]["computed_minus_theory"]) * 1e3 for key, _ in arrivals],
+                   range(len(arrivals)), color=COLORS["bulk"], zorder=3, label="First detected sample")
+    timing.set(yticks=range(len(arrivals)), yticklabels=[label for _, label in arrivals],
+               xlim=(0, dt * 1e3 * 1.45), xlabel="Detected time minus theoretical arrival [ms]")
+    timing.invert_yaxis()
+    timing.grid(axis="x", alpha=.22)
+    timing.legend(fontsize=8, loc="lower left")
+    fig.suptitle("Stage 1 benchmark: theory versus computation | 100 m, c = 1100 m/s, frictionless")
+    save(fig, output, "theory_comparison.png")
 
 
 def run(source, output):
@@ -230,6 +280,7 @@ def run(source, output):
                "pipe_min_absolute_pa", "first_phase_crossing_s", "phase_status"], closure)
     waveform_figure(source, output)
     closure_figure(closure, report["phase_limit_pa"], output)
+    theory_figure(source, output, report["cases"]["bulk_ideal"]["grids"][-1]["dt_s"])
 
 
 if __name__ == "__main__":

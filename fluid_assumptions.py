@@ -11,6 +11,7 @@ MU_BOUNDS_PA_S = (0.96e-4, 1.44e-4)
 ROUGHNESS_M = 15e-6
 ROUGHNESS_BOUNDS_M = (0.0, 50e-6)
 PHASE_BASIS = "Pure methane surrogate at 111 K; actual LNG composition unknown"
+PHASE_LABEL = "Methane saturation pressure (111 K, proxy)"
 
 
 def methane_saturation_pa(temperature=TEMPERATURE_K):

@@ -50,7 +50,7 @@ The complete runner generates:
 | *_long_valve.csv | Full long valve histories for ideal/nominal cases |
 | *.png | Required short histories plus longer-record spectrum, phase threshold and labels |
 | convergence.csv / convergence.png | First valve pressure rise in Pa and MPa for N=5,10,20,40,80,160,320; two speed panels |
-| convergence_error.png | Nominal first-rise and waveform differences against N=320, with the chosen 1% threshold |
+| convergence_error.png | Nominal first-rise difference as a percentage of the reference rise and maximum waveform difference as a percentage of the Joukowsky rise. Both compare against N = 320. |
 | theory_comparison.csv | Theory and measured first crest, arrivals, reservoir travel/return, period and FFT |
 | friction_sensitivity.csv | Friction, surge, minima, phase flags, period and frequency |
 | closure_sensitivity.csv | Additional0.020/0.10/0.25/0.50s closure scenarios; last case screened over50 periods |
@@ -72,8 +72,10 @@ Long FFT records use50 ideal periods, starting one period after the closure ramp
 
 The chosen strict <1% criterion checks first-rise and period changes relative to the finer result, plus maximum absolute waveform difference divided by that case's Joukowsky rise. Coarse histories are linearly reconstructed on the finer time grid over the common first second at all four stations. This includes sampling/interpolation effects. Each candidate is compared with the next grid and with N=320, and must keep passing on subsequent tested grids. N=320 is a numerical reference, not an exact solution or a self-certified pass. The resulting smallest tested passing N is160 for bulk and20 for elastic in all five friction settings. Retain320 for a common production resolution. The peak alone is nearly unchanged even on coarse grids and cannot establish full-waveform convergence.
 
+The peak-rise figure reports the first valve rise above its initial local pressure before the reservoir reflection returns. The error figure shows two of the three convergence metrics. The period check also appears in the CSV. The waveform metric compares each coarse trace with the finer trace at matching times and takes the largest absolute difference across all four stations.
+
 ## Interpretation
-The auxiliary methane saturation threshold at111K is95873.89895Pa absolute. Actual LNG composition is unknown. All prescribed rapid-baseline cases cross this screen: full pressure traces, periods and spectra are **formal single-phase verification**. No pressure clipping, cavity model or physical approval is implied. The first positive crest occurs before the detected threshold crossing.
+The figure label **Methane saturation pressure (111 K, proxy)** refers to 95,873.89895 Pa absolute. The actual LNG composition is unknown. All prescribed rapid-baseline cases cross this screen: full pressure traces, periods and spectra are **formal single-phase verification**. No pressure clipping, cavity model or physical approval is implied. The first positive crest occurs before the detected threshold crossing.
 
 The model is a horizontal uniform-area, constant-property MOC with quasi-steady signed Darcy resistance, fixed reservoir and prescribed valve flow. It omits local bend losses/reflections, elevation, cavity dynamics and moving-pipe feedback. The viscosity/roughness envelope is an engineering scenario, not an actual-fluid confidence interval.
 
@@ -97,8 +99,8 @@ python stage1_evidence.py --input results/latest --out results/selected/evidence
 | Slide | Evidence to use |
 |---|---|
 | 13 | `benchmark_pressure_overlay.png` shows the four 1 s pressure histories with the analytical finite-closure solution. |
-| 14 | `benchmark_checks.csv` compares the surge, arrivals, return time and period with theory. `valve_reflection_zoom.png` shows when the reflected front starts and when the methane surrogate threshold is crossed. |
-| 15 | Keep the existing peak-rise plot. `waveform_convergence.png` explains the choice of N = 320. `valve_record_and_spectrum.png` combines the first 3 s of the valve record with the spectrum from the full analysis window. |
+| 14 | [Theory comparison](results/selected/evidence/theory_comparison.png) compares the rise, return, period and FFT and isolates first-sample timing offsets. The [reflection zoom](results/selected/evidence/valve_reflection_zoom.png) shows when the reflected front starts and when the methane proxy threshold is crossed. |
+| 15 | Use the [peak-rise plot](results/selected/logarithmic_convergence.png) with the separate [mesh-error plot](results/selected/logarithmic_convergence_error.png). The [standalone 3 s trace](results/selected/evidence/valve_pressure_3s.png) and [combined trace and spectrum](results/selected/evidence/valve_record_and_spectrum.png) are available for showing the longer valve response. |
 | 32 | `closure_pressure_comparison.png` compares the recorded maxima and minima over the first 2 s. The cases are benchmark scenarios for discussion. |
 
 The full time histories and spectra are generated in `results/latest` for the reproducible submission ZIP. See [executed validation](docs/VALIDATION.md) for the frequency estimator, the check at N = 640 and the limitations of the phase screen.

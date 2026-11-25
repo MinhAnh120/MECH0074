@@ -11,7 +11,7 @@ import platform
 
 import numpy as np
 import params as p
-from fluid_assumptions import PHASE_BASIS, friction_estimate, methane_saturation_pa
+from fluid_assumptions import PHASE_BASIS, PHASE_LABEL, friction_estimate, methane_saturation_pa
 from run_stage1 import metrics, save_case
 from resolution import DEFAULT_REACHES, TOLERANCE_PERCENT, resolution_study, save_resolution, validate_reaches
 from stage1 import Case, simulate, spectrum, theory
@@ -101,7 +101,7 @@ def run(output, code_version="uncommitted; use source_sha256", reaches=DEFAULT_R
                                     "minimum_absolute_pa": long["minimum_absolute_pa"],
                                     "phase_status": long["phase_status"]}}
             report["cases"][name] = item
-            save_case(output, name, case, short, frequency, amplitude)
+            save_case(output, name, case, short, frequency, amplitude, phase_label=PHASE_LABEL)
             if label in ("ideal", "nominal"):
                 comparisons.extend([[name]+r for r in comparison(case, short, rows[-1], peak)])
                 np.savetxt(output/f"{name}_long_valve.csv",

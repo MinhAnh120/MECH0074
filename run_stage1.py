@@ -39,7 +39,22 @@ def metrics(case, result):
             "interpolated_stations": result["interpolated_stations"]}
 
 
-def save_case(directory, name, case, short, frequency, amplitude):
+def plot_valve_spectrum(axis, case, frequency, amplitude):
+    symbol = "c" if case.speed_mode == "bulk" else "a"
+    fundamental = theory(case)["fundamental_hz"]
+    axis.plot(frequency, amplitude / 1e6)
+    label = f"Predicted harmonics: {symbol}/(4L), 3{symbol}/(4L), 5{symbol}/(4L), 7{symbol}/(4L)"
+    for order in (1, 3, 5, 7):
+        axis.axvline(order * fundamental, color="tab:red", ls="--", lw=1,
+                     label=label if order == 1 else None)
+    upper_frequency = max(20, 7 * fundamental + 0.5)
+    axis.set(xlabel="Frequency [Hz]", ylabel="Valve pressure amplitude [MPa]",
+             xlim=(0, upper_frequency), ylim=(0, 1.0))
+    axis.legend(fontsize=8)
+
+
+def save_case(directory, name, case, short, frequency, amplitude, *,
+              phase_label="Phase-pressure threshold"):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -59,23 +74,20 @@ def save_case(directory, name, case, short, frequency, amplitude):
     axes[0].set(xlabel="Time [s]", ylabel="Absolute pressure [MPa]", xlim=(0, 1))
     axes[1].set(xlabel="Time [s]", ylabel="Pressure change [MPa]", xlim=(0, 1))
     if case.phase_limit is not None:
-        axes[0].axhline(case.phase_limit/1e6, color="black", ls=":",
-                        label="Entered phase threshold (see metadata)")
+        axes[0].axhline(case.phase_limit/1e6, color="black", ls=":", label=phase_label)
     axes[0].legend(ncol=3, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.01))
-    axes[2].plot(frequency, amplitude/1e6)
-    axes[2].axvline(case.speed/(4*case.length), color="tab:red", ls="--", label="a/(4L)")
-    axes[2].set(title="Valve-pressure spectrum from the longer record",
-                xlabel="Frequency [Hz]", ylabel="Valve amplitude [MPa]", xlim=(0, 20))
-    axes[2].legend()
+    plot_valve_spectrum(axes[2], case, frequency, amplitude)
+    axes[2].set_title("Valve-pressure spectrum from the longer record")
     for axis in axes:
         axis.grid(alpha=0.3)
-    validity = {"LNG_phase_limit_not_supplied": "LNG phase limit unknown; physical validity unverified",
-                "nonpositive_absolute_pressure": "Negative absolute pressure; formal verification only",
-                "phase_limit_crossed": "Entered phase limit crossed; formal verification only",
-                "above_entered_phase_limit_only": "Above entered phase limit; other model limits still apply"}
+    validity = {"LNG_phase_limit_not_supplied": "LNG phase limit unspecified.",
+                "nonpositive_absolute_pressure": "Phase screening: the single-phase model predicts nonpositive absolute pressure.",
+                "phase_limit_crossed": "Phase screening: the single-phase trace falls below the threshold.",
+                "above_entered_phase_limit_only": "Phase screening: the trace stays above the supplied threshold."}
     title = name.replace("_", " ").capitalize()
-    fig.suptitle(f"{title}: a = {case.speed:.3f} m/s; Darcy f = {case.friction:g}\n"
-                 f"{validity[short['phase_status']]}", fontsize=10)
+    symbol = "c" if case.speed_mode == "bulk" else "a"
+    fig.suptitle(f"{title} | {symbol} = {case.speed:.3f} m/s | Darcy f = {case.friction:g}", fontsize=11)
+    fig.supxlabel(validity[short["phase_status"]], fontsize=8)
     fig.savefig(directory/f"{name}.png", dpi=160)
     plt.close(fig)
 

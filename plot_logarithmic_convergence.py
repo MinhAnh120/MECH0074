@@ -10,6 +10,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter, LogFormatterMathtext, LogLocator, NullFormatter
 
+from resolution import PEAK_PLOT_TITLE, TOLERANCE_PERCENT, label_refinement_errors
+
 
 def logarithmic_x(axis):
     axis.set_xscale("log", base=10)
@@ -51,7 +53,7 @@ def run(source, output=None):
                  ylabel="First valve pressure rise [MPa]")
         axis.yaxis.set_major_formatter(FormatStrFormatter("%.6f"))
         axis.legend(fontsize=8, loc="upper center", bbox_to_anchor=(.5, -.19), ncol=3)
-    fig.suptitle("Peak pressure rise versus number of reaches")
+    fig.suptitle(PEAK_PLOT_TITLE)
     fig.savefig(output/"logarithmic_convergence.png", dpi=160)
     plt.close(fig)
 
@@ -63,15 +65,14 @@ def run(source, output=None):
             # The finest grid has no independent difference from itself.
             compared = [r for r in values if r[field] != ""]
             axis.plot([int(r["reaches"]) for r in compared],
-                      [float(r[field]) for r in compared], "o-", label=name)
-    for axis, title in zip(axes, ("First-rise difference", "Maximum waveform difference")):
+                      [float(r[field]) for r in compared], "o-", label=name.replace("_", " ").capitalize())
+    for axis in axes:
         logarithmic_x(axis)
         axis.set_yscale("log", base=10)
-        axis.axhline(1., color="black", ls="--", label="1% criterion")
-        axis.set(title=title, ylabel="Difference from finest grid [%]")
+        axis.axhline(TOLERANCE_PERCENT, color="black", ls="--", label=f"{TOLERANCE_PERCENT:g}% criterion")
         axis.legend(fontsize=8)
     reference = cases[nominal[0]][-1]["reference_reaches"]
-    fig.suptitle(f"Refinement diagnostics; N={reference} is the numerical reference")
+    label_refinement_errors(fig, axes, reference)
     fig.savefig(output/"logarithmic_convergence_error.png", dpi=160)
     plt.close(fig)
     print(f"Saved three logarithmic-convergence files in {output}")

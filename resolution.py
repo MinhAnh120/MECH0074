@@ -7,6 +7,18 @@ from stage1 import simulate, theory
 
 DEFAULT_REACHES = (5, 10, 20, 40, 80, 160, 320)
 TOLERANCE_PERCENT = 1.0
+PEAK_PLOT_TITLE = "Mesh sensitivity of peak pressure rise (MPa) versus number of reaches, N"
+
+
+def label_refinement_errors(fig, axes, reference):
+    axes[0].set(title="First valve rise", ylabel="Difference [% of reference rise]")
+    axes[1].set(title="Maximum waveform difference", ylabel="Difference [% of Joukowsky rise]")
+    fig.suptitle("Pressure differences between meshes")
+    fig.supxlabel(
+        f"Reference mesh: N = {reference}. When comparing waveforms, interpolate coarse results to the reference times.\n"
+        "Take the maximum absolute difference over 0–1 s at 10, 25, 50 and 100 m.",
+        fontsize=9,
+    )
 
 
 def validate_reaches(reaches):
@@ -117,7 +129,7 @@ def save_resolution(output, cases):
         axis.yaxis.set_major_formatter(FormatStrFormatter("%.6f"))
         axis.grid(alpha=.3)
         axis.legend(fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.19), ncol=3)
-    fig.suptitle("Peak pressure rise versus reaches (horizontal scale: successive doubling)")
+    fig.suptitle(PEAK_PLOT_TITLE)
     fig.savefig(output/"convergence.png", dpi=160)
     plt.close(fig)
 
@@ -129,10 +141,10 @@ def save_resolution(output, cases):
         rows = item["grids"][:-1]
         for axis, key in zip(axes, (keys[0], keys[2])):
             values = [r["difference_from_finest"][key] for r in rows]
-            axis.plot([r["reaches"] for r in rows], values, "o-", label=name)
-    for axis, title in zip(axes, ("First-rise difference", "Maximum waveform difference")):
-        axis.axhline(TOLERANCE_PERCENT, color="black", ls="--", label="1% criterion")
-        axis.set(xlabel="Number of reaches, N", ylabel="Difference from finest grid [%]", title=title)
+            axis.plot([r["reaches"] for r in rows], values, "o-", label=name.replace("_", " ").capitalize())
+    for axis in axes:
+        axis.axhline(TOLERANCE_PERCENT, color="black", ls="--", label=f"{TOLERANCE_PERCENT:g}% criterion")
+        axis.set_xlabel("Number of reaches, N")
         axis.set_xscale("log", base=2)
         axis.set_yscale("log")
         ticks = next(iter(cases.values()))["reaches"][:-1]
@@ -140,6 +152,6 @@ def save_resolution(output, cases):
         axis.grid(alpha=.3, which="both")
         axis.legend(fontsize=8)
     reference = next(iter(cases.values()))["reaches"][-1]
-    fig.suptitle(f"Refinement diagnostics; N={reference} is the numerical reference")
+    label_refinement_errors(fig, axes, reference)
     fig.savefig(output/"convergence_error.png", dpi=160)
     plt.close(fig)
