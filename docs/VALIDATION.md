@@ -91,3 +91,7 @@ The peak-rise plot reports the first valve pressure rise before the reflected wa
 Bulk figures use c for the supplied sound speed and elastic figures use a for the effective wave speed. The spectral markers show the first four predicted odd harmonics. The 0–1 MPa display includes every peak in the ten benchmark cases. The methane proxy label retains the temperature and phase basis. The figure notes and threshold-crossing shading identify the single-phase continuation.
 
 All 20 tests passed. The full researched and legacy runners and both presentation plotting commands completed using Python 3.12.14, NumPy 2.3.5 and Matplotlib 3.10.8. The tracked CSV contents, benchmark case results and phase flags reproduced exactly. The updated verification report records the current source hashes and code revision.
+
+## Slide figure presentation — 26 November 2026
+
+The logarithmic mesh-error figure shows the nominal bulk case and the 1% line in both panels. The nominal bulk spectrum labels the predicted odd harmonics at 2.75, 8.25, 13.75 and 19.25 Hz. All 20 tests passed, and the full benchmark and logarithmic plotting commands completed with Python 3.12.14, NumPy 2.3.5 and Matplotlib 3.10.8. The numerical benchmark cases, phase flags and selected benchmark CSV contents matched the previous results. The pressure-history panels and the logarithmic peak-rise figure also matched.

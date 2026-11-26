@@ -33,8 +33,7 @@ def run(source, output=None):
         cases.setdefault(row["case"], []).append(row)
     for values in cases.values():
         values.sort(key=lambda row: int(row["reaches"]))
-    nominal = ("bulk_nominal", "elastic_nominal")
-    if not all(name in cases for name in nominal):
+    if not {"bulk_nominal", "elastic_nominal"}.issubset(cases):
         raise ValueError("Use the researched convergence CSV containing both nominal cases.")
     output.mkdir(parents=True, exist_ok=True)
     # A CSV stores physical values, not axis settings: preserve the original data.
@@ -59,19 +58,18 @@ def run(source, output=None):
 
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.5), constrained_layout=True)
     fields = ("peak_difference_vs_finest_percent", "waveform_difference_vs_finest_percent")
-    for name in nominal:
-        values = cases[name]
-        for axis, field in zip(axes, fields):
-            # The finest grid has no independent difference from itself.
-            compared = [r for r in values if r[field] != ""]
-            axis.plot([int(r["reaches"]) for r in compared],
-                      [float(r[field]) for r in compared], "o-", label=name.replace("_", " ").capitalize())
+    values = cases["bulk_nominal"]
+    for axis, field in zip(axes, fields):
+        # The finest grid has no independent difference from itself.
+        compared = [r for r in values if r[field] != ""]
+        axis.plot([int(r["reaches"]) for r in compared],
+                  [float(r[field]) for r in compared], "o-", label="Bulk nominal")
     for axis in axes:
         logarithmic_x(axis)
         axis.set_yscale("log", base=10)
         axis.axhline(TOLERANCE_PERCENT, color="black", ls="--", label=f"{TOLERANCE_PERCENT:g}% criterion")
         axis.legend(fontsize=8)
-    reference = cases[nominal[0]][-1]["reference_reaches"]
+    reference = values[-1]["reference_reaches"]
     label_refinement_errors(fig, axes, reference)
     fig.savefig(output/"logarithmic_convergence_error.png", dpi=160)
     plt.close(fig)

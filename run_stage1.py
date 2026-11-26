@@ -39,18 +39,27 @@ def metrics(case, result):
             "interpolated_stations": result["interpolated_stations"]}
 
 
-def plot_valve_spectrum(axis, case, frequency, amplitude):
+def plot_valve_spectrum(axis, case, frequency, amplitude, *, label_harmonics=False):
     symbol = "c" if case.speed_mode == "bulk" else "a"
     fundamental = theory(case)["fundamental_hz"]
     axis.plot(frequency, amplitude / 1e6)
     label = f"Predicted harmonics: {symbol}/(4L), 3{symbol}/(4L), 5{symbol}/(4L), 7{symbol}/(4L)"
     for order in (1, 3, 5, 7):
-        axis.axvline(order * fundamental, color="tab:red", ls="--", lw=1,
+        harmonic = order * fundamental
+        axis.axvline(harmonic, color="tab:red", ls="--", lw=1,
                      label=label if order == 1 else None)
+        if label_harmonics:
+            axis.text(harmonic, 0.95, f"{harmonic:.2f}",
+                      transform=axis.get_xaxis_transform(), ha="center", va="center",
+                      color="tab:red", fontsize=10,
+                      bbox={"facecolor": "white", "edgecolor": "none", "pad": 1})
     upper_frequency = max(20, 7 * fundamental + 0.5)
     axis.set(xlabel="Frequency [Hz]", ylabel="Valve pressure amplitude [MPa]",
              xlim=(0, upper_frequency), ylim=(0, 1.0))
-    axis.legend(fontsize=8)
+    if label_harmonics:
+        axis.legend(fontsize=10, loc="upper right", bbox_to_anchor=(1, 0.89))
+    else:
+        axis.legend(fontsize=8)
 
 
 def save_case(directory, name, case, short, frequency, amplitude, *,
@@ -76,7 +85,8 @@ def save_case(directory, name, case, short, frequency, amplitude, *,
     if case.phase_limit is not None:
         axes[0].axhline(case.phase_limit/1e6, color="black", ls=":", label=phase_label)
     axes[0].legend(ncol=3, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.01))
-    plot_valve_spectrum(axes[2], case, frequency, amplitude)
+    plot_valve_spectrum(axes[2], case, frequency, amplitude,
+                        label_harmonics=name == "bulk_nominal")
     axes[2].set_title("Valve-pressure spectrum from the longer record")
     for axis in axes:
         axis.grid(alpha=0.3)
