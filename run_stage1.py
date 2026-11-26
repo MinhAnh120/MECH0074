@@ -80,8 +80,9 @@ def save_case(directory, name, case, short, frequency, amplitude, *,
         label = f"x = {station:g} m"+(" (valve)" if station == case.length else "")
         axes[0].plot(time, pressure[:, i]/1e6, label=label)
         axes[1].plot(time, (pressure[:, i]-pressure[0, i])/1e6, label=label)
-    axes[0].set(xlabel="Time [s]", ylabel="Absolute pressure [MPa]", xlim=(0, 1))
-    axes[1].set(xlabel="Time [s]", ylabel="Pressure change [MPa]", xlim=(0, 1))
+    time_label = "Time after valve closure starts [s]" if name == "bulk_nominal" else "Time [s]"
+    axes[0].set(xlabel=time_label, ylabel="Absolute pressure [MPa]", xlim=(0, 1))
+    axes[1].set(xlabel=time_label, ylabel="Pressure change [MPa]", xlim=(0, 1))
     if case.phase_limit is not None:
         axes[0].axhline(case.phase_limit/1e6, color="black", ls=":", label=phase_label)
     axes[0].legend(ncol=3, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.01))

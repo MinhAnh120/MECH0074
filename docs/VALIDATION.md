@@ -95,3 +95,5 @@ All 20 tests passed. The full researched and legacy runners and both presentatio
 ## Slide figure presentation — 26 November 2026
 
 The logarithmic mesh-error figure shows the nominal bulk case and the 1% line in both panels. The nominal bulk spectrum labels the predicted odd harmonics at 2.75, 8.25, 13.75 and 19.25 Hz. All 20 tests passed, and the full benchmark and logarithmic plotting commands completed with Python 3.12.14, NumPy 2.3.5 and Matplotlib 3.10.8. The numerical benchmark cases, phase flags and selected benchmark CSV contents matched the previous results. The pressure-history panels and the logarithmic peak-rise figure also matched.
+
+Both time-domain panels in `bulk_nominal.png` now label time from the start of valve closure. All 20 tests passed and the full benchmark rerun reproduced the numerical cases and the nominal bulk history CSV. Image comparison verified that only the two time-axis labels changed.
