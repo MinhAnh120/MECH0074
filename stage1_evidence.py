@@ -82,13 +82,14 @@ def pressure_figures(case, run, output):
     save(fig, output, "valve_reflection_zoom.png")
 
 
-def plot_valve_trace(axis, time, pressure, case, crossing):
+def plot_valve_trace(axis, time, pressure, case, crossing, *,
+                     crossing_label="Single-phase continuation after screen crossing ({crossing:.3f} s)"):
     keep = time <= 3
     axis.plot(time[keep], pressure[keep] / 1e6, color=COLORS["bulk"])
     axis.axhline(case.phase_limit / 1e6, color="#9b6000", ls="--", lw=1, label=PHASE_LABEL)
     if crossing is not None and crossing < 3:
         axis.axvspan(crossing, 3, color="#e6b96f", alpha=.18,
-                    label=f"Single-phase continuation after screen crossing ({crossing:.3f} s)")
+                    label=crossing_label.format(crossing=crossing))
     axis.set(xlim=(0, 3), xlabel="Time after closure starts [s]", ylabel="Valve absolute pressure [MPa]",
              title="First 3 s of the valve record")
     axis.legend(fontsize=8, loc="upper right")
@@ -126,7 +127,8 @@ def valve_frequency(case, item, source, output):
     if mode == "bulk":
         crossing = long_record["first_phase_crossing_s"]
         fig, trace = plt.subplots(figsize=(9.5, 3.8), layout="constrained")
-        plot_valve_trace(trace, time, pressure, case, crossing)
+        plot_valve_trace(trace, time, pressure, case, crossing,
+                         crossing_label="Single-phase continuation from crossing pressure at 111 K ({crossing:g} s)")
         fig.suptitle("100 m benchmark | c = 1100 m/s, nominal friction")
         save(fig, output, "valve_pressure_3s.png")
 
