@@ -1,0 +1,33 @@
+{
+  "source_commit": "be7f68ab1348566e677c8b58c22f372f017e7f39",
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "matplotlib": "3.10.8",
+  "phase_pressure_pa": 95873.898949157,
+  "max_pre_activation_difference_pa": 0.0,
+  "slow_closure_control_max_pressure_difference_pa": 0.0,
+  "frictionless_analytical_activation_s": 0.19986514953114676,
+  "frictionless_detected_activation_s": 0.19999999999999998,
+  "methane_runs_max_cavity_balance_residual_m3_s": 1.5265566588595902e-15,
+  "single_phase_inputs": {
+    "length": 100.0,
+    "diameter": 0.79394,
+    "outer_diameter": 0.813,
+    "density": 455.0,
+    "bulk_speed": 1100.0,
+    "young": 213233000000.0,
+    "velocity": 1.5,
+    "pressure_abs": 700000.0,
+    "external_abs": 101325.0,
+    "closure_time": 0.02,
+    "friction": 0.010107831897873143,
+    "speed_mode": "bulk",
+    "phase_limit": null
+  },
+  "record_s": 1.0,
+  "source_sha256": {
+    "stage1.py": "c205473c7ec29739c38161fc03e8bb314eb2e5772be3e9f7b8c156a2ff462da1",
+    "fluid_assumptions.py": "45d1bc735008e73b8fcf9a23ffe80113efedf052f7a288f10c7ff4f5142e3ec7",
+    "cavitation_sensitivity.py": "7aae1c5c7b0deaae01fa2df64fb441116a4c8b2418290b085843d71be4d4a324"
+  }
+}
