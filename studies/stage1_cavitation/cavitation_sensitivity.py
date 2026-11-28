@@ -155,12 +155,12 @@ def plot(output, phase, base, cases, rows):
     pressure.axvspan(cases[640]["valve_first_collapse_s"],1.,color="#bdb5c3",alpha=.12,lw=0,
                      label="After first modelled collapse")
     pressure.set(ylabel="Valve pressure [MPa abs.]")
-    pressure.legend(loc="upper right",fontsize=8,frameon=True)
+    pressure.legend(loc="upper left",fontsize=8,frameon=True)
     for grid,colour in [(320,"#578697"),(640,"#432260"),(1280,"#c87821")]:
         run=cases[grid]
         volume.plot(run["time"],run["valve_volume"]*1e3,lw=1.2,label=f"N = {grid}",color=colour)
     volume.set(xlabel="Time after valve closure starts [s]",ylabel="Valve cavity volume [L]",xlim=(0,1))
-    volume.legend(loc="upper right",fontsize=8)
+    volume.legend(loc="upper left",fontsize=8)
     for axis in (pressure,volume):
         axis.axvline(cases[640]["valve_activation_s"],color="#ac6f09",lw=1.,alpha=.5)
         axis.grid(alpha=.22)
